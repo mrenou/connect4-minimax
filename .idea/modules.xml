@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/algo-minmax.iml" filepath="$PROJECT_DIR$/algo-minmax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api/connect4.iml" filepath="$PROJECT_DIR$/api/connect4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tools/minimax-tools.iml" filepath="$PROJECT_DIR$/tools/minimax-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/players/player-easy/player-easy.iml" filepath="$PROJECT_DIR$/players/player-easy/player-easy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/player-idiot/player-idiot.iml" filepath="$PROJECT_DIR$/player-idiot/player-idiot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/players/player-medium/player-medium.iml" filepath="$PROJECT_DIR$/players/player-medium/player-medium.iml" />
+      <module fileurl="file://$PROJECT_DIR$/players-test/players-test.iml" filepath="$PROJECT_DIR$/players-test/players-test.iml" />
+    </modules>
+  </component>
+</project>
+
