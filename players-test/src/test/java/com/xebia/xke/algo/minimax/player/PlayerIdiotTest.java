@@ -2,7 +2,11 @@ package com.xebia.xke.algo.minimax.player;
 
 import com.xebia.xke.algo.minimax.connect4.Match;
 import com.xebia.xke.algo.minimax.connect4.Player;
-import com.xebia.xke.algo.minimax.player.medium.*;
+import com.xebia.xke.algo.minimax.player.easy.PlayerAlphabetaWithStateV1;
+import com.xebia.xke.algo.minimax.player.easy.PlayerMinimaxWithStateV1;
+import com.xebia.xke.algo.minimax.player.idiot.PlayerIdiot;
+import com.xebia.xke.algo.minimax.player.medium.PlayerAlphabetaWithStateV2;
+import com.xebia.xke.algo.minimax.player.medium.PlayerAlphabetaWithStateV3;
 import org.junit.Ignore;
 import org.junit.Test;
 

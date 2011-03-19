@@ -1,4 +1,4 @@
-package com.xebia.xke.algo.minimax.player.medium;
+package com.xebia.xke.algo.minimax.player.easy;
 
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
@@ -6,14 +6,14 @@ import com.xebia.xke.algo.minimax.connect4.Player;
 import com.xebia.xke.algo.minimax.tools.AlphaBeta;
 import com.xebia.xke.algo.minimax.tools.StateConnectFour;
 
-public class PlayerAlphabetaWithStateV2 implements Player {
+public class PlayerAlphabetaWithStateV1 implements Player {
 
     AlphaBeta alphaBeta = new AlphaBeta();
     private static final int MAX_DEPTH = 5;
 
     @Override
     public int play(CounterColor counterColor, Board board) {
-        StateConnectFour stateConnectFour = new StateConnectFourV2((Board) board.clone(), counterColor, counterColor, -1, MAX_DEPTH);
+        StateConnectFour stateConnectFour = new StateConnectFourV1((Board) board.clone(), counterColor, counterColor, -1, MAX_DEPTH);
 
         StateConnectFour bestNextState = alphaBeta.minimax(stateConnectFour);
         return bestNextState.getColumnIndexPlayed();
@@ -26,7 +26,7 @@ public class PlayerAlphabetaWithStateV2 implements Player {
 
     @Override
     public String getName() {
-        return "Medium-1";
+        return "Easy-2";
     }
 
 

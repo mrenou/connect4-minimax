@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="algo-minmax:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="algo-com.xebia.xke.algo.com.xebia.xke.algo.minimax.war">
-      <element id="artifact" artifact-name="algo-minmax:war exploded" />
-    </root>
-  </artifact>
-</component>

@@ -24,5 +24,10 @@ public class PlayerAlphabetaWithStateV3 implements Player {
         return alphaBeta.getStats();
     }
 
+    @Override
+    public String getName() {
+        return "Medium-2";
+    }
+
 
 }

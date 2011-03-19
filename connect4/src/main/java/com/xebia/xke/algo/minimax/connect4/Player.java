@@ -5,4 +5,6 @@ public interface Player {
     int play(CounterColor counterColor, Board board);
 
     String getStats();
+
+    String getName();
 }

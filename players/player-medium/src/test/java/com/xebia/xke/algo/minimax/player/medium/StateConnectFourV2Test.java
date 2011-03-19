@@ -3,7 +3,6 @@ package com.xebia.xke.algo.minimax.player.medium;
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.BoardFactory;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
-import com.xebia.xke.algo.minimax.player.medium.StateConnectFourV2;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;

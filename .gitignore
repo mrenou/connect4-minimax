@@ -1,0 +1,9 @@
+target/
+connect4/target/
+players/player-idiot/target/
+players/player-easy/target/
+players/player-medium/target/
+minimax-tools/target/
+.idea/
+
+

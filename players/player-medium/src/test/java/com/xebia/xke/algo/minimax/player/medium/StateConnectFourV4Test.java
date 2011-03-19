@@ -3,8 +3,6 @@ package com.xebia.xke.algo.minimax.player.medium;
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.BoardFactory;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
-import com.xebia.xke.algo.minimax.player.medium.StateConnectFourV3;
-import com.xebia.xke.algo.minimax.player.medium.StateConnectFourV4;
 import com.xebia.xke.algo.minimax.tools.StateConnectFour;
 import org.junit.Ignore;
 import org.junit.Test;
