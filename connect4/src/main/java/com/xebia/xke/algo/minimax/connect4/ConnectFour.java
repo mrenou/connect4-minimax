@@ -14,21 +14,12 @@ public class ConnectFour {
 
     public ConnectFour(ConnectFourConfig connectFourConfig) {
         board = new Board(connectFourConfig.getNbColumns(), connectFourConfig.getColumnSize());
-        currentCounterColor = selectFirstCounterColor();
+        currentCounterColor = CounterColor.YELLOW;
         winningLineSize = connectFourConfig.getWinningLineSize();
     }
 
     public ConnectFour() {
         this(ConnectFourConfig.create());
-    }
-
-    private CounterColor selectFirstCounterColor() {
-        Random random = new Random();
-
-        if (random.nextBoolean()) {
-            return CounterColor.RED;
-        }
-        return CounterColor.YELLOW;
     }
 
     public boolean putCounter(int columnIndex) {

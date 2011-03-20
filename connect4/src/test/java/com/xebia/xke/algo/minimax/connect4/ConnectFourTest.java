@@ -1,8 +1,5 @@
 package com.xebia.xke.algo.minimax.connect4;
 
-import com.xebia.xke.algo.minimax.connect4.Board;
-import com.xebia.xke.algo.minimax.connect4.ConnectFour;
-import com.xebia.xke.algo.minimax.connect4.CounterColor;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -11,20 +8,12 @@ import static org.fest.assertions.Assertions.assertThat;
 public class ConnectFourTest {
 
     @Test
-    public void should_select_first_color_randomly() {
-        ConnectFour connectFour = new ConnectFour();
-        CounterColor counterColor = connectFour.getCurrentCounterColor();
-        boolean sameColor = true;
-
-
+    public void should_select_first_color_yellow() {
         for (int i = 0; i < 50; i++) {
-            connectFour = new ConnectFour();
-            if (connectFour.getCurrentCounterColor() != counterColor) {
-                sameColor = false;
-            }
+            ConnectFour connectFour = new ConnectFour();
+            assertThat(connectFour.getCurrentCounterColor()).isEqualTo(CounterColor.YELLOW);
         }
 
-        assertThat(sameColor).isFalse();
     }
 
 
@@ -121,6 +110,6 @@ public class ConnectFourTest {
         assertThat(connectFour.getCurrentCounterColor()).isNotEqualTo(counterColor);
     }
 
-    
+
 
 }
