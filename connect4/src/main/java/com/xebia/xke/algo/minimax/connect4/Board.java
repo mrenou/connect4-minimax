@@ -1,39 +1,34 @@
 package com.xebia.xke.algo.minimax.connect4;
 
+import java.util.Arrays;
+
 public class Board {
 
-    private int nbColumns;
-    private int columnSize;
+    private static final int NB_COLUMNS = 7;
+    private static final int COLUMN_SIZE = 6;
+    private static final long FULL_BOARD = ((1L << ((COLUMN_SIZE + 1) * NB_COLUMNS)) - 1);
+    private static final long FULL_COLUMN = ((1 << (COLUMN_SIZE + 1)) -1);
+    private static final long BOTTOM = FULL_BOARD / FULL_COLUMN;
+    private static final long TOP = BOTTOM << COLUMN_SIZE;
+
     private int numberOfCounters;
     long[] colorBoards = new long[2]; // RED [0] YELLOW [1]
     byte[] columnsMaxValueUsed;
     private CounterColor winnerCounterColor;
-    private long bottom;
-    private long top;
 
-    public Board(int nbColumns, int columnSize) {
-        this.nbColumns = nbColumns;
-        this.columnSize = columnSize;
-        //boardValues = new CounterColor[this.nbColumns][this.columnSize];
-        columnsMaxValueUsed = new byte[nbColumns];
-        long fullBoard = ((1L << ((columnSize + 1) * nbColumns)) - 1);
-        long fullColumn = ((1 << (columnSize + 1)) -1);
-        this.bottom = fullBoard / fullColumn;
-        this.top = this.bottom << columnSize;
+
+    public Board() {
+        columnsMaxValueUsed = new byte[NB_COLUMNS];
 
         // reset ?
         numberOfCounters = 0;
         colorBoards[0] = colorBoards[1] = 0L;
         // init with min value for each columns
         // for 7 * 6 board : 0, 7, 14, 21, 28, 35, 42
-        for (int i = 0; i < nbColumns; i++) {
-            columnsMaxValueUsed[i] = (byte)((columnSize + 1) * i);
+        for (int i = 0; i < NB_COLUMNS; i++) {
+            columnsMaxValueUsed[i] = (byte)((COLUMN_SIZE + 1) * i);
         }
-
-    }
-
-    public Board() {
-        this(ConnectFourConfig.create().getNbColumns(), ConnectFourConfig.create().getColumnSize());
+        winnerCounterColor = null;
     }
 
     public CounterColor getWinnerCounterColor() {
@@ -45,8 +40,8 @@ public class Board {
     }
 
     public boolean isInBoard(int columnIndex, int verticalIndex) {
-        return columnIndex >= 0 && columnIndex < nbColumns &&
-                verticalIndex >= 0 && verticalIndex < columnSize;
+        return columnIndex >= 0 && columnIndex < NB_COLUMNS &&
+                verticalIndex >= 0 && verticalIndex < COLUMN_SIZE;
     }
 
     public boolean hasCounterColor(int columnIndex, int verticalIndex, CounterColor counterColor) {
@@ -69,10 +64,10 @@ public class Board {
     }
 
     private CounterColor checkCounterColorAtPosition(int columnIndex, int verticalIndex) {
-        if ((colorBoards[0] & (1L << (((columnSize + 1) * columnIndex) + verticalIndex))) != 0) {
+        if ((colorBoards[0] & (1L << (((COLUMN_SIZE + 1) * columnIndex) + verticalIndex))) != 0) {
             return CounterColor.RED;
         }
-        if ((colorBoards[1] & (1L << (((columnSize + 1) * columnIndex) + verticalIndex))) != 0) {
+        if ((colorBoards[1] & (1L << (((COLUMN_SIZE + 1) * columnIndex) + verticalIndex))) != 0) {
             return CounterColor.YELLOW;
         }
         return null;
@@ -84,7 +79,7 @@ public class Board {
             throw new IllegalStateException("The game is ended.");
         }*/
 
-        if (columnIndex < 0 || columnIndex >= nbColumns || columnIsfull(columnIndex)) {
+        if (columnIndex < 0 || columnIndex >= NB_COLUMNS || columnIsfull(columnIndex)) {
             return -1;
         }
         if (CounterColor.RED.equals(counterColor)) {
@@ -94,7 +89,7 @@ public class Board {
             colorBoards[1] ^= 1L << columnsMaxValueUsed[columnIndex]++;
         }
         //TODO test vertical index
-        int verticalIndex = (columnsMaxValueUsed[columnIndex] - ((columnSize + 1) * columnIndex)) - 1;
+        int verticalIndex = (columnsMaxValueUsed[columnIndex] - ((COLUMN_SIZE + 1) * columnIndex)) - 1;
         //TODO record move ?
         if (checkWinningMove(colorBoards[0])) {
             winnerCounterColor = CounterColor.RED;
@@ -107,43 +102,39 @@ public class Board {
     }
 
     public int getNbColumns() {
-        return nbColumns;
+        return NB_COLUMNS;
     }
 
     public int getColumnSize() {
-        return columnSize;
+        return COLUMN_SIZE;
     }
 
     public Board clone() {
         Board board = new Board();
 
-        board.columnSize = columnSize;
-        board.nbColumns = nbColumns;
         board.numberOfCounters = numberOfCounters;
         board.colorBoards = colorBoards.clone();
         board.columnsMaxValueUsed = columnsMaxValueUsed.clone();
         board.winnerCounterColor = winnerCounterColor;
-        board.bottom = bottom;
-        board.top = top;
         return board;
     }
 
     public boolean columnIsfull(int indexColumn) {
-        if (((1L << columnsMaxValueUsed[indexColumn]) & top) != 0 ) {
+        if (((1L << columnsMaxValueUsed[indexColumn]) & TOP) != 0 ) {
             return true;
         }
         return false;
     }
 
     public boolean isFull() {
-        return numberOfCounters == columnSize * nbColumns;
+        return numberOfCounters == COLUMN_SIZE * NB_COLUMNS;
     }
 
     private boolean checkWinningMove(long board) {
 
-        if (/*check diagonal \ */ testLinesOf4(board, columnSize) ||
-                /*check horizontal - */ testLinesOf4(board, columnSize + 1) ||
-                /*check diagonal / */ testLinesOf4(board, columnSize + 2) ||
+        if (/*check diagonal \ */ testLinesOf4(board, COLUMN_SIZE) ||
+                /*check horizontal - */ testLinesOf4(board, COLUMN_SIZE + 1) ||
+                /*check diagonal / */ testLinesOf4(board, COLUMN_SIZE + 2) ||
                 /*check vertical | */ testLinesOf4(board, 1)) {
             return true;
         }
@@ -178,18 +169,18 @@ public class Board {
         return board & (board >> shiftValue);
     }
 
-    //TODO see that
     @Override
     public boolean equals(Object o) {
-        if (toString().equals(o.toString())) {
-            return true;
+        if (o != null && o instanceof Board) {
+            Board board = (Board) o;
+            return Arrays.equals(board.colorBoards, colorBoards);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return Arrays.hashCode(colorBoards);
     }
 
     @Override
@@ -197,7 +188,7 @@ public class Board {
         StringBuilder b = new StringBuilder();
         b.append("\n");
         for (int verticalIndex = getColumnSize() - 1; verticalIndex >= 0; verticalIndex--) {
-            for (int boardIndex = verticalIndex; boardIndex < ((columnSize + 1) * nbColumns); boardIndex += columnSize + 1) {
+            for (int boardIndex = verticalIndex; boardIndex < ((COLUMN_SIZE + 1) * NB_COLUMNS); boardIndex += COLUMN_SIZE + 1) {
                 long mask = 1L << boardIndex;
                 if ((colorBoards[0] & mask) != 0) {
                     b.append("R");

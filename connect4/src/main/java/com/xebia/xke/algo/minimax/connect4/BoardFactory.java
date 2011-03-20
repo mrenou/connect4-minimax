@@ -1,12 +1,7 @@
 package com.xebia.xke.algo.minimax.connect4;
 
 public class BoardFactory {
-
-    public static Board createBoard(String strBoard, int nbColumns, int columnSize) {
-        Board board = new Board(nbColumns, columnSize);
-        return createBoard(strBoard, board);
-    }
-
+    
     public static Board createBoard(String strBoard) {
         Board board = new Board();
         return createBoard(strBoard, board);

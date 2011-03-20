@@ -11,11 +11,7 @@ public class Match {
     private ConnectFour connectFour;
 
     public Match(Player player1, Player player2) {
-        this(ConnectFourConfig.create(), player1, player2);
-    }
-
-    public Match(ConnectFourConfig connectFourConfig, Player player1, Player player2) {
-        connectFour = new ConnectFour(connectFourConfig);
+        connectFour = new ConnectFour();
         if (new Random().nextBoolean()) {
             players.put(connectFour.getCurrentCounterColor(), player1);
             players.put(connectFour.getNotCurrentCounterColor(), player2);
