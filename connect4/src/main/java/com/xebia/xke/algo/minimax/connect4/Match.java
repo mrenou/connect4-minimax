@@ -41,4 +41,12 @@ public class Match {
         System.out.println(players.get(CounterColor.RED).toString() + " " + players.get(CounterColor.RED).getStats());
         return null;
     }
+
+    public Map<CounterColor, Player> getPlayers() {
+        return players;
+    }
+
+    public Player getPlayer(CounterColor counterColor) {
+        return players.get(counterColor);
+    }
 }

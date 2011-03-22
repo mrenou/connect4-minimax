@@ -1,47 +1,87 @@
 package com.xebia.xke.algo.minimax.connect4;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import com.google.common.annotations.VisibleForTesting;
+
 import java.util.*;
 
 public class Tournament {
 
-    List<Player> players = new ArrayList<Player>();
+    private List<PlayerScored> playerScoredList = new ArrayList<PlayerScored>();
 
+    private Map<String, PlayerScored> playerScoredMap = new HashMap<String, PlayerScored>();
+
+    @VisibleForTesting
     Queue<Match> matches = new LinkedList<Match>();
 
     public void addPlayer(Player player) {
-        players.add(player);
+        PlayerScored playerScored = new PlayerScored(player);
+        playerScoredList.add(playerScored);
+        playerScoredMap.put(playerScored.getPlayer().getName(), playerScored);
     }
 
-    public void start() {
-        Queue<Player> tmpPlayers = new LinkedList<Player>(players);
+    public void initMatches() {
+        Queue<PlayerScored> tmpPlayers = new LinkedList<PlayerScored>(playerScoredList);
 
         while (!tmpPlayers.isEmpty()) {
-            Player player1 = tmpPlayers.poll();
-            for (Player player2 : tmpPlayers) {
-                matches.add(new Match(player1, player2));
+            PlayerScored player1 = tmpPlayers.poll();
+            for (PlayerScored player2 : tmpPlayers) {
+                matches.add(new Match(player1.getPlayer(), player2.getPlayer()));
             }
         }
-
     }
 
-    public void start2() throws PlayerLoadingException {
+    public Match playNextMatch() {
+        Match currentMatch = matches.poll();
 
-        /*File file = new File(".");
-        Player player1 = loadPlayer(new File("./connect4/target/players/player-idiot-1.0-SNAPSHOT.jar"));
-        System.out.println(player1.getName());
-        Player player2 = loadPlayer(new File("./connect4/target/players/player-medium-1.0-SNAPSHOT.jar"));
-        System.out.println(player2.getName());
-        Match match = new Match(player1, player2);
+        if (currentMatch != null) {
+            Player winner = currentMatch.play();
 
-        System.out.println(match.play());
-          */
+            if (winner == null) {
+                playerScoredMap.get(currentMatch.getPlayer(CounterColor.RED).getName()).addPoints(1);
+                playerScoredMap.get(currentMatch.getPlayer(CounterColor.YELLOW).getName()).addPoints(1);
+            } else {
+                playerScoredMap.get(winner.getName()).addPoints(3);
+            }
+        }
+        sortScores();
+        return currentMatch;
     }
 
-    
+    private void sortScores() {
+        Collections.sort(playerScoredList, new Comparator<PlayerScored>() {
+
+            @Override
+            public int compare(PlayerScored playerScored, PlayerScored playerScored1) {
+                return playerScored1.getScore() - playerScored.getScore();
+            }
+        });
+    }
+
+    public void playAllMatches() {
+        while(playNextMatch() != null) {
+        }
+    }
+
+    public Integer getScore(Player player) {
+       return playerScoredMap.get(player.getName()).getScore();
+    }
+
+    public List<PlayerScored> getScores() {
+       return Collections.unmodifiableList(playerScoredList);
+    }
+
+    public String getStringtScores() {
+        StringBuilder builder = new StringBuilder();
+        int i = 1;
+
+        for (PlayerScored playerScored : playerScoredList) {
+            builder.append(i++);
+            builder.append(" ");
+            builder.append(playerScored.getPlayer().getName());
+            builder.append(" ");
+            builder.append(playerScored.getScore());
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
 }

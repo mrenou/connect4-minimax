@@ -10,7 +10,7 @@
     <modules>
         <module>connect4</module>
         <module>minimax-tools</module>
-        <module>players/player-idiot</module>                
+        <module>players/player-idiot</module>
         <module>players/player-easy</module>
         <module>players/player-medium</module>
         <module>players-test</module>
@@ -110,6 +110,11 @@
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-module-test-mockito-junit4</artifactId>
                 <version>1.4.7</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

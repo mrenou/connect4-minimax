@@ -48,5 +48,10 @@
             <artifactId>powermock-module-test-mockito-junit4</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>            
+        </dependency>
     </dependencies>
 </project>
