@@ -1,4 +1,7 @@
+package com.xebia.xke.algo.minimax.ui;
+
 import com.xebia.xke.algo.minimax.connect4.*;
+import sun.awt.VerticalBagLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +22,9 @@ public class ConnectFourGame {
     private ImageIcon redIcon;
     private ImageIcon yellowIcon;
     private ImageIcon emptyIcon;
+    private JLabel winnerLabel = new JLabel();
+
+    private Match match = new Match(new RealPlayer(), new RealPlayer());
 
     private void resetGame() {
         //TODO reset connect four ?
@@ -42,11 +48,11 @@ public class ConnectFourGame {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         // TODO check
-        panel.setLayout(new GridLayout(0, 1));
+        panel.setLayout(new FlowLayout());
         defaultTableModel = buildTableModel();
         JTable jtable = buildJTable(defaultTableModel);
         panel.add(jtable);
-
+        panel.add(winnerLabel);
         resetGame();
 
         return panel;
@@ -138,10 +144,19 @@ public class ConnectFourGame {
         }
     }
 
+    private void turn() {
+        Player player = match.getNextPlayer();
+
+        if (player instanceof RealPlayer) {
+            match.play();    
+        }
+    }
+
     private void putCounter(int columnIndex) {
         CounterColor counterColor = connectFour.getCurrentCounterColor();
 
-        if (!connectFour.putCounter(columnIndex)) {
+        Move move = connectFour.putCounter(columnIndex);
+        if (!move.isValidMove()) {
             //TODO show error dialog ?
             System.out.println("Not valid");
         } else {
@@ -156,7 +171,7 @@ public class ConnectFourGame {
             }
         }
         if (connectFour.getCounterColorOfWinner() != null) {
-            System.out.println(connectFour.getCounterColorOfWinner() + " Win !");
+            winnerLabel.setText(connectFour.getCounterColorOfWinner().name() + "win!");
             resetGame();
         }
     }

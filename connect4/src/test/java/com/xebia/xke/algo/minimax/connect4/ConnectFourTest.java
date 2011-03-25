@@ -54,9 +54,9 @@ public class ConnectFourTest {
 
         Mockito.when(board.putCounter(Mockito.anyInt(), Mockito.any(CounterColor.class))).thenReturn(1);
 
-        boolean valid = connectFour.putCounter(0);
+        Move move = connectFour.putCounter(0);
 
-        assertThat(valid).isTrue();
+        assertThat(move.isValidMove()).isTrue();
     }
 
     @Test
@@ -67,9 +67,9 @@ public class ConnectFourTest {
 
         Mockito.when(board.putCounter(Mockito.anyInt(), Mockito.any(CounterColor.class))).thenReturn(-1);
 
-        boolean valid = connectFour.putCounter(0);
+        Move move = connectFour.putCounter(0);
 
-        assertThat(valid).isFalse();
+        assertThat(move.isValidMove()).isFalse();
     }
 
     @Test
@@ -77,16 +77,16 @@ public class ConnectFourTest {
         ConnectFour connectFour = new ConnectFour();
         CounterColor counterColor = connectFour.getCurrentCounterColor();
 
-        boolean valid = connectFour.putCounter(0);
+        Move move = connectFour.putCounter(0);
 
-        assertThat(valid).isTrue();
+        assertThat(move.isValidMove()).isTrue();
         assertThat(connectFour.board.getNumberOfCounters()).isEqualTo(1);
         assertThat(connectFour.getCurrentCounterColor()).isNotEqualTo(counterColor);
 
 
-        valid = connectFour.putCounter(1);
+        move = connectFour.putCounter(1);
 
-        assertThat(valid).isTrue();
+        assertThat(move.isValidMove()).isTrue();
         assertThat(connectFour.board.getNumberOfCounters()).isEqualTo(2);
         assertThat(connectFour.getCurrentCounterColor()).isEqualTo(counterColor);
     }
@@ -96,16 +96,16 @@ public class ConnectFourTest {
         ConnectFour connectFour = new ConnectFour();
         CounterColor counterColor = connectFour.getCurrentCounterColor();
 
-        boolean valid = connectFour.putCounter(0);
+        Move move = connectFour.putCounter(0);
 
-        assertThat(valid).isTrue();
+        assertThat(move.isValidMove()).isTrue();
         assertThat(connectFour.board.getNumberOfCounters()).isEqualTo(1);
         assertThat(connectFour.getCurrentCounterColor()).isNotEqualTo(counterColor);
 
 
-        valid = connectFour.putCounter(-1);
+        move = connectFour.putCounter(-1);
 
-        assertThat(valid).isFalse();
+        assertThat(move.isValidMove()).isFalse();
         assertThat(connectFour.board.getNumberOfCounters()).isEqualTo(1);
         assertThat(connectFour.getCurrentCounterColor()).isNotEqualTo(counterColor);
     }

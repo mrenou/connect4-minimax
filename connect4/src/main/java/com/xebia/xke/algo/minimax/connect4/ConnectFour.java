@@ -16,20 +16,15 @@ public class ConnectFour {
         currentCounterColor = CounterColor.YELLOW;
     }
 
-    public boolean putCounter(int columnIndex) {
+    public Move putCounter(int columnIndex) {
         //TODO stop if end game
         int verticalIndex = board.putCounter(columnIndex, currentCounterColor);
         if (verticalIndex != -1) {
-            currentCounterColor = getNotCurrentCounterColor();
+            currentCounterColor = currentCounterColor.getOtherCounterColor();
             winnerCounterColor = board.getWinnerCounterColor();
             lastValidVerticalIndex = verticalIndex;
-            return true;
         }
-        return false;
-    }
-
-    public CounterColor getNotCurrentCounterColor() {
-        return currentCounterColor.getOtherCounterColor();
+        return new Move(currentCounterColor.getOtherCounterColor(), columnIndex, verticalIndex, board.getWinnerCounterColor() != null);
     }
 
     public boolean isEndGame() {

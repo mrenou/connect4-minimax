@@ -1,3 +1,5 @@
+package com.xebia.xke.algo.minimax.ui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;

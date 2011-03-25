@@ -14,10 +14,10 @@ public class Match {
         connectFour = new ConnectFour();
         if (new Random().nextBoolean()) {
             players.put(connectFour.getCurrentCounterColor(), player1);
-            players.put(connectFour.getNotCurrentCounterColor(), player2);
+            players.put(connectFour.getCurrentCounterColor().getOtherCounterColor(), player2);
         } else {
             players.put(connectFour.getCurrentCounterColor(), player2);
-            players.put(connectFour.getNotCurrentCounterColor(), player1);
+            players.put(connectFour.getCurrentCounterColor().getOtherCounterColor(), player1);
         }
     }
 
