@@ -7,6 +7,8 @@ public class ConnectFour {
     private CounterColor currentCounterColor;
     private CounterColor winnerCounterColor;
 
+    private int lastValidVerticalIndex = -1;
+
     @VisibleForTesting
     Board board = new Board();
 
@@ -20,6 +22,7 @@ public class ConnectFour {
         if (verticalIndex != -1) {
             currentCounterColor = getNotCurrentCounterColor();
             winnerCounterColor = board.getWinnerCounterColor();
+            lastValidVerticalIndex = verticalIndex;
             return true;
         }
         return false;
@@ -43,5 +46,9 @@ public class ConnectFour {
 
     public Board getBoard() {
         return board;
+    }
+
+    public int getLastValidVerticalIndex() {
+        return lastValidVerticalIndex;
     }
 }

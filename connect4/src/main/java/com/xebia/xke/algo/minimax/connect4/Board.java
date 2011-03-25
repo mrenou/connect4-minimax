@@ -95,7 +95,7 @@ public class Board {
             winnerCounterColor = CounterColor.RED;
         }
         if (checkWinningMove(colorBoards[1])) {
-            winnerCounterColor = CounterColor.RED;
+            winnerCounterColor = CounterColor.YELLOW;
         }
         numberOfCounters++;
         return verticalIndex;

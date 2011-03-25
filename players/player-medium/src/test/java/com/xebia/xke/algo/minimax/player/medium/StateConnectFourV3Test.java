@@ -267,7 +267,7 @@ public class StateConnectFourV3Test {
         evalBoardTester.board(BoardFactory.createBoard("RRRRR/RRRR/RRR/RR///")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
         evalBoardTester.board(BoardFactory.createBoard("//RRRRR/RRRR/RRR/RR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
         evalBoardTester.board(BoardFactory.createBoard("///RRRR/RRR/RR/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/YYYYYY/RRRRR/RRRR/RRR/RR/Y")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/RRRYYY/YYYRR/RRRR/YRR/RR/Y")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
 
         evalBoardTester.board(BoardFactory.createBoard("/RRRR")).shouldHaveScore(StateConnectFour.BEST_SCORE);
         evalBoardTester.board(BoardFactory.createBoard("/R/R/R/R")).shouldHaveScore(StateConnectFour.BEST_SCORE);
