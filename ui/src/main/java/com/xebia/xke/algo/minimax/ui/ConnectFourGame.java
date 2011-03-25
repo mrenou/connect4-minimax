@@ -170,8 +170,8 @@ public class ConnectFourGame {
                 defaultTableModel.setValueAt(yellowIcon, connectFour.getBoard().getColumnSize() - 1 - connectFour.getLastValidVerticalIndex(), columnIndex);
             }
         }
-        if (connectFour.getCounterColorOfWinner() != null) {
-            winnerLabel.setText(connectFour.getCounterColorOfWinner().name() + "win!");
+        if (move.isWinningMove()) {
+            winnerLabel.setText(move.getCounterColor().name() + "win!");
             resetGame();
         }
     }

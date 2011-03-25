@@ -35,10 +35,6 @@ public class ConnectFour {
         return currentCounterColor;
     }
 
-    public CounterColor getCounterColorOfWinner() {
-        return winnerCounterColor;
-    }
-
     public Board getBoard() {
         return board;
     }

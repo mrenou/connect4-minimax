@@ -30,11 +30,11 @@ public class Match {
             Player currentPlayer = players.get(connectFour.getCurrentCounterColor());
             int columnPlayed = currentPlayer.play(connectFour.getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
 
-            connectFour.putCounter(columnPlayed);
-            if (connectFour.getCounterColorOfWinner() != null) {
+            Move move = connectFour.putCounter(columnPlayed);
+            if (move.isWinningMove()) {
                 System.out.println(players.get(CounterColor.YELLOW).toString() + " " + players.get(CounterColor.YELLOW).getStats());
                 System.out.println(players.get(CounterColor.RED).toString() + " " + players.get(CounterColor.RED).getStats());
-                return players.get(connectFour.getCounterColorOfWinner());
+                return players.get(move.getCounterColor());
             }
         }
         System.out.println(players.get(CounterColor.YELLOW).toString() + " " + players.get(CounterColor.YELLOW).getStats());
