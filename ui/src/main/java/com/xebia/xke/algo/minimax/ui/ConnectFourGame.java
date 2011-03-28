@@ -161,13 +161,13 @@ public class ConnectFourGame {
             System.out.println("Not valid");
         } else {
             if (counterColor == null) {
-                defaultTableModel.setValueAt(emptyIcon, connectFour.getBoard().getColumnSize() - 1 - connectFour.getLastValidVerticalIndex(), columnIndex);
+                defaultTableModel.setValueAt(emptyIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
             }
             if (CounterColor.RED.equals(counterColor)) {
-                defaultTableModel.setValueAt(redIcon, connectFour.getBoard().getColumnSize() - 1 - connectFour.getLastValidVerticalIndex(), columnIndex);
+                defaultTableModel.setValueAt(redIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
             }
             if (CounterColor.YELLOW.equals(counterColor)) {
-                defaultTableModel.setValueAt(yellowIcon, connectFour.getBoard().getColumnSize() - 1 - connectFour.getLastValidVerticalIndex(), columnIndex);
+                defaultTableModel.setValueAt(yellowIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
             }
         }
         if (move.isWinningMove()) {

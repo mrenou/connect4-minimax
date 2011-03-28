@@ -5,9 +5,6 @@ import com.google.common.annotations.VisibleForTesting;
 public class ConnectFour {
 
     private CounterColor currentCounterColor;
-    private CounterColor winnerCounterColor;
-
-    private int lastValidVerticalIndex = -1;
 
     @VisibleForTesting
     Board board = new Board();
@@ -21,14 +18,12 @@ public class ConnectFour {
         int verticalIndex = board.putCounter(columnIndex, currentCounterColor);
         if (verticalIndex != -1) {
             currentCounterColor = currentCounterColor.getOtherCounterColor();
-            winnerCounterColor = board.getWinnerCounterColor();
-            lastValidVerticalIndex = verticalIndex;
         }
         return new Move(currentCounterColor.getOtherCounterColor(), columnIndex, verticalIndex, board.getWinnerCounterColor() != null);
     }
 
     public boolean isEndGame() {
-        return board.isFull();
+        return board.isFull() || board.getWinnerCounterColor() != null;
     }
 
     public CounterColor getCurrentCounterColor() {
@@ -37,9 +32,5 @@ public class ConnectFour {
 
     public Board getBoard() {
         return board;
-    }
-
-    public int getLastValidVerticalIndex() {
-        return lastValidVerticalIndex;
     }
 }
