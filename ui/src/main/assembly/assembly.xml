@@ -1,0 +1,40 @@
+<assembly>
+    <id>dist</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/assembly/players</directory>
+            <outputDirectory>players</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>${project.artifactId}-${project.version}.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/assembly/bin</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>connect4.sh</include>
+            </includes>
+            <lineEnding>lf</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/assembly/bin</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>connect4.bat</include>
+            </includes>
+            <lineEnding>crlf</lineEnding>
+        </fileSet>
+
+    </fileSets>
+</assembly>

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ConnectFourGame {
 
-    private static final String PLAYERS_DIR = "ui/players/";
+    private static final String DFLT_PLAYERS_DIR = "players/";
 
     private Map<String, Player> players;
 
@@ -251,8 +251,13 @@ public class ConnectFourGame {
         return defaultTableModel;
     }
 
+    private File getPlayersDirectory() {
+        return new File(System.getProperty("playersDir", DFLT_PLAYERS_DIR));
+    }
+
     private void initPlayers() {
-        PlayerLoader playerLoader = new PlayerLoader(new File(PLAYERS_DIR));
+
+        PlayerLoader playerLoader = new PlayerLoader(getPlayersDirectory());
 
         try {
             players = playerLoader.loadAllPlayers();
