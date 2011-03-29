@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ConnectFourGame {
@@ -23,13 +24,17 @@ public class ConnectFourGame {
     private ImageIcon emptyIcon;
     private JLabel infoLabel = new JLabel();
 
-    private Match match = new Match(new RealPlayer(), new RealPlayer());
+    private Match match = new Match(new HumanPlayer(), new HumanPlayer());
 
     private JTable jtable;
 
     private Object wakeUpFlag = new Object();
 
     private boolean started = false;
+    private JComboBox player2List;
+    private JLabel player2CounterLabel;
+    private JComboBox player1List;
+    private JLabel player1CounterLabel;
 
     private void resetGame() {
         for (int x = 0; x < 7; x++) {
@@ -42,18 +47,6 @@ public class ConnectFourGame {
     public Component createComponents() {
         //TODO where, when ?
         initPlayers();
-        //match = new Match(players.get("Medium-2"), players.get("Medium-2"));
-        match = new Match(new RealPlayer(), players.get("Medium-2"));
-
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-        // TODO check
-        panel.setLayout(new FlowLayout());
-        defaultTableModel = buildTableModel();
-        jtable = buildJTable(defaultTableModel);
-        panel.add(jtable);
-        panel.add(infoLabel);
-        resetGame();
 
         Thread thread = new Thread() {
 
@@ -77,7 +70,7 @@ public class ConnectFourGame {
                     while (!match.isEndMatch()) {
                         Player player = match.getNextPlayer();
 
-                        if (!(player instanceof RealPlayer)) {
+                        if (!(player instanceof HumanPlayer)) {
                             Move move = match.playNextTurn();
                             setMove(move);
                         } else {
@@ -89,6 +82,65 @@ public class ConnectFourGame {
         };
         thread.start();
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        panel.add(getLeftPlayerPanel());
+        panel.add(getBoardPanel());
+        panel.add(getRightPlayerPanel());
+
+        return panel;
+    }
+
+    private Component getLeftPlayerPanel() {
+        JPanel playerPanel = new JPanel();
+
+        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
+
+        java.util.List<String> playerNames = new ArrayList<String>();
+        for (Player player : players.values()) {
+            playerNames.add(player.getName());
+        }
+        player1List = new JComboBox(playerNames.toArray());
+
+        player1CounterLabel = new JLabel();
+
+        playerPanel.add(new JLabel("Player 1"));
+        playerPanel.add(player1List);
+        playerPanel.add(player1CounterLabel);
+
+        return playerPanel;
+    }
+
+    private Component getRightPlayerPanel() {
+        JPanel playerPanel = new JPanel();
+
+        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
+
+        java.util.List<String> playerNames = new ArrayList<String>();
+        for (Player player : players.values()) {
+            playerNames.add(player.getName());
+        }
+        player2List = new JComboBox(playerNames.toArray());
+
+        player2CounterLabel = new JLabel();
+
+        playerPanel.add(new JLabel("Player 2"));
+        playerPanel.add(player2List);
+        playerPanel.add(player2CounterLabel);
+
+        return playerPanel;
+    }
+
+    private JPanel getBoardPanel() {
+        JPanel panel = new JPanel();
+
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
+        // TODO check
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        defaultTableModel = buildTableModel();
+        jtable = buildJTable(defaultTableModel);
+        panel.add(jtable);
+        panel.add(infoLabel);
         return panel;
     }
 
@@ -122,6 +174,8 @@ public class ConnectFourGame {
         jtable.getColumnModel().getColumn(6).setMinWidth(100);
         jtable.getColumnModel().getColumn(6).setMaxWidth(100);
 
+        resetGame();
+
         //TODO check
         jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -130,16 +184,16 @@ public class ConnectFourGame {
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (started == false) {
                     started = true;
-                    if (match.isEndMatch()) {
-                        //match = new Match(players.get("Medium-2"), players.get("Medium-2"));
-                        match = new Match(new RealPlayer(), players.get("Medium-2"));
-                    }
+
+                    match = new Match(players.get(player1List.getSelectedItem()), players.get(player2List.getSelectedItem()));
+                    player1CounterLabel.setIcon(getImageIconByCounterColor(match.getCounterColorPlayer1()));
+                    player2CounterLabel.setIcon(getImageIconByCounterColor(match.getCounterColorPlayer2()));
                     infoLabel.setText(match.getCurrentCounterColor() + "   playing ...");
                     resetGame();
-                    if (!(match.getNextPlayer() instanceof RealPlayer)) {
+                    if (!(match.getNextPlayer() instanceof HumanPlayer)) {
                         wakeUpAutoPlayersThread();
                     }
-                } else if (match.getNextPlayer() instanceof RealPlayer) {
+                } else if (match.getNextPlayer() instanceof HumanPlayer) {
                     Move move = match.playNextTurn(jtable.getSelectedColumn());
                     setMove(move);
                     wakeUpAutoPlayersThread();
@@ -164,6 +218,19 @@ public class ConnectFourGame {
         });
 
         return jtable;
+    }
+
+    private ImageIcon getImageIconByCounterColor(CounterColor counterColor) {
+        if (counterColor == null) {
+            return emptyIcon;
+        }
+        if (counterColor == CounterColor.RED) {
+            return redIcon;
+        }
+        if (counterColor == CounterColor.YELLOW) {
+            return yellowIcon;
+        }
+        return null;
     }
 
     private void wakeUpAutoPlayersThread() {
@@ -191,8 +258,9 @@ public class ConnectFourGame {
             players = playerLoader.loadAllPlayers();
         } catch (PlayerLoadingException e) {
             //TODO show error dialog
-            throw new RuntimeException("BOOM");
+            throw new RuntimeException("Cannot load players.", e);
         }
+        players.put("Human", new HumanPlayer());
     }
 
     private void setMove(Move move) {
@@ -201,15 +269,7 @@ public class ConnectFourGame {
             //TODO show error dialog ?
             System.out.println("Not valid");
         } else {
-            if (move.getCounterColor() == null) {
-                defaultTableModel.setValueAt(emptyIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
-            }
-            if (CounterColor.RED.equals(move.getCounterColor())) {
-                defaultTableModel.setValueAt(redIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
-            }
-            if (CounterColor.YELLOW.equals(move.getCounterColor())) {
-                defaultTableModel.setValueAt(yellowIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
-            }
+            defaultTableModel.setValueAt(getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
         }
         if (move.isWinningMove()) {
             infoLabel.setText(move.getCounterColor().name() + "  win !");

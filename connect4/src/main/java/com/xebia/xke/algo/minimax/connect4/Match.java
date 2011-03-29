@@ -8,17 +8,23 @@ public class Match {
 
     private Map<CounterColor, Player> players = new HashMap<CounterColor, Player>();
 
+    private CounterColor counterColorPlayer1;
+
+    private CounterColor counterColorPlayer2;
+
     private ConnectFour connectFour;
 
     public Match(Player player1, Player player2) {
         connectFour = new ConnectFour();
         if (new Random().nextBoolean()) {
-            players.put(connectFour.getCurrentCounterColor(), player1);
-            players.put(connectFour.getCurrentCounterColor().getOtherCounterColor(), player2);
+            counterColorPlayer1 = connectFour.getCurrentCounterColor();
+            counterColorPlayer2 = connectFour.getCurrentCounterColor().getOtherCounterColor();
         } else {
-            players.put(connectFour.getCurrentCounterColor(), player2);
-            players.put(connectFour.getCurrentCounterColor().getOtherCounterColor(), player1);
+            counterColorPlayer2 = connectFour.getCurrentCounterColor();
+            counterColorPlayer1 = connectFour.getCurrentCounterColor().getOtherCounterColor();
         }
+        players.put(counterColorPlayer1, player1);
+        players.put(counterColorPlayer2, player2);
     }
 
     public Player getNextPlayer() {
@@ -65,5 +71,13 @@ public class Match {
 
     public boolean isEndMatch() {
         return connectFour.isEndGame();
+    }
+
+    public CounterColor getCounterColorPlayer1() {
+        return counterColorPlayer1;
+    }
+
+    public CounterColor getCounterColorPlayer2() {
+        return counterColorPlayer2;
     }
 }
