@@ -25,12 +25,21 @@ public class Match {
         return players.get(connectFour.getCurrentCounterColor());
     }
 
+    public Move playNextTurn() {
+        Player currentPlayer = players.get(connectFour.getCurrentCounterColor());
+        int columnPlayed = currentPlayer.play(connectFour.getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
+
+        return playNextTurn(columnPlayed);
+    }
+
+    public Move playNextTurn(int columnIndex) {
+        return connectFour.putCounter(columnIndex);
+    }
+
     public Player play() {
         while (!connectFour.isEndGame()) {
-            Player currentPlayer = players.get(connectFour.getCurrentCounterColor());
-            int columnPlayed = currentPlayer.play(connectFour.getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
+            Move move = playNextTurn();
 
-            Move move = connectFour.putCounter(columnPlayed);
             if (move.isWinningMove()) {
                 System.out.println(players.get(CounterColor.YELLOW).toString() + " " + players.get(CounterColor.YELLOW).getStats());
                 System.out.println(players.get(CounterColor.RED).toString() + " " + players.get(CounterColor.RED).getStats());
@@ -48,5 +57,13 @@ public class Match {
 
     public Player getPlayer(CounterColor counterColor) {
         return players.get(counterColor);
+    }
+
+    public CounterColor getCurrentCounterColor() {
+        return connectFour.getCurrentCounterColor();
+    }
+
+    public boolean isEndMatch() {
+        return connectFour.isEndGame();
     }
 }

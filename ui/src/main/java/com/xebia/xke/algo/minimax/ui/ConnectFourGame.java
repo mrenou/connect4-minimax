@@ -1,7 +1,6 @@
 package com.xebia.xke.algo.minimax.ui;
 
 import com.xebia.xke.algo.minimax.connect4.*;
-import sun.awt.VerticalBagLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,30 +12,29 @@ import java.util.Map;
 
 public class ConnectFourGame {
 
-    private static final String PLAYERS_DIR = "players/";
+    private static final String PLAYERS_DIR = "ui/players/";
 
     private Map<String, Player> players;
 
-    private ConnectFour connectFour;
+    //private ConnectFour connectFour;
     private DefaultTableModel defaultTableModel;
     private ImageIcon redIcon;
     private ImageIcon yellowIcon;
     private ImageIcon emptyIcon;
-    private JLabel winnerLabel = new JLabel();
+    private JLabel infoLabel = new JLabel();
 
     private Match match = new Match(new RealPlayer(), new RealPlayer());
 
-    private void resetGame() {
-        //TODO reset connect four ?
-        connectFour = new ConnectFour();
-        Board board = connectFour.getBoard();
-        for (int x = 0; x < board.getNbColumns(); x++) {
-            for (int y = 0; y < board.getColumnSize(); y++) {
-                CounterColor counterColor = board.getCounterColor(x, board.getColumnSize() - 1 - y);
+    private JTable jtable;
 
-                if (counterColor == null) {
-                    defaultTableModel.setValueAt(emptyIcon, y, x);
-                }
+    private Object wakeUpFlag = new Object();
+
+    private boolean started = false;
+
+    private void resetGame() {
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 6; y++) {
+                defaultTableModel.setValueAt(emptyIcon, y, x);
             }
         }
     }
@@ -44,22 +42,58 @@ public class ConnectFourGame {
     public Component createComponents() {
         //TODO where, when ?
         initPlayers();
+        //match = new Match(players.get("Medium-2"), players.get("Medium-2"));
+        match = new Match(new RealPlayer(), players.get("Medium-2"));
 
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         // TODO check
         panel.setLayout(new FlowLayout());
         defaultTableModel = buildTableModel();
-        JTable jtable = buildJTable(defaultTableModel);
+        jtable = buildJTable(defaultTableModel);
         panel.add(jtable);
-        panel.add(winnerLabel);
+        panel.add(infoLabel);
         resetGame();
+
+        Thread thread = new Thread() {
+
+            private void sleepAutoPlayersThread() {
+                synchronized (wakeUpFlag) {
+                    try {
+                        synchronized (wakeUpFlag) {
+                            wakeUpFlag.wait();
+                        }
+                    }catch (InterruptedException e) {
+                        //
+                    }
+                }
+            }
+
+            @Override
+            public void run() {
+                while (true) {
+                    sleepAutoPlayersThread();
+
+                    while (!match.isEndMatch()) {
+                        Player player = match.getNextPlayer();
+
+                        if (!(player instanceof RealPlayer)) {
+                            Move move = match.playNextTurn();
+                            setMove(move);
+                        } else {
+                            sleepAutoPlayersThread();
+                        }
+                    }
+                }
+            }
+        };
+        thread.start();
 
         return panel;
     }
 
     private JTable buildJTable(DefaultTableModel defaultTableModel) {
-        final JTable jtable = new JTable();
+        jtable = new JTable();
 
         redIcon = new ImageIcon(this.getClass().getResource("/images/counter-red.png"));
         yellowIcon = new ImageIcon(this.getClass().getResource("/images/counter-yellow.png"));
@@ -94,31 +128,48 @@ public class ConnectFourGame {
         jtable.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                putCounter(jtable.getSelectedColumn());
+                if (started == false) {
+                    started = true;
+                    if (match.isEndMatch()) {
+                        //match = new Match(players.get("Medium-2"), players.get("Medium-2"));
+                        match = new Match(new RealPlayer(), players.get("Medium-2"));
+                    }
+                    infoLabel.setText(match.getCurrentCounterColor() + "   playing ...");
+                    resetGame();
+                    if (!(match.getNextPlayer() instanceof RealPlayer)) {
+                        wakeUpAutoPlayersThread();
+                    }
+                } else if (match.getNextPlayer() instanceof RealPlayer) {
+                    Move move = match.playNextTurn(jtable.getSelectedColumn());
+                    setMove(move);
+                    wakeUpAutoPlayersThread();
+                }
             }
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
 
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
 
         return jtable;
+    }
+
+    private void wakeUpAutoPlayersThread() {
+        synchronized (wakeUpFlag) {
+            wakeUpFlag.notify();
+        }
     }
 
     private DefaultTableModel buildTableModel() {
@@ -144,35 +195,27 @@ public class ConnectFourGame {
         }
     }
 
-    private void turn() {
-        Player player = match.getNextPlayer();
+    private void setMove(Move move) {
 
-        if (player instanceof RealPlayer) {
-            match.play();    
-        }
-    }
-
-    private void putCounter(int columnIndex) {
-        CounterColor counterColor = connectFour.getCurrentCounterColor();
-
-        Move move = connectFour.putCounter(columnIndex);
         if (!move.isValidMove()) {
             //TODO show error dialog ?
             System.out.println("Not valid");
         } else {
-            if (counterColor == null) {
-                defaultTableModel.setValueAt(emptyIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
+            if (move.getCounterColor() == null) {
+                defaultTableModel.setValueAt(emptyIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
             }
-            if (CounterColor.RED.equals(counterColor)) {
-                defaultTableModel.setValueAt(redIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
+            if (CounterColor.RED.equals(move.getCounterColor())) {
+                defaultTableModel.setValueAt(redIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
             }
-            if (CounterColor.YELLOW.equals(counterColor)) {
-                defaultTableModel.setValueAt(yellowIcon, connectFour.getBoard().getColumnSize() - 1 - move.getVerticalIndex(), columnIndex);
+            if (CounterColor.YELLOW.equals(move.getCounterColor())) {
+                defaultTableModel.setValueAt(yellowIcon, 5 - move.getVerticalIndex(), move.getColumnIndex());
             }
         }
         if (move.isWinningMove()) {
-            winnerLabel.setText(move.getCounterColor().name() + "win!");
-            resetGame();
+            infoLabel.setText(move.getCounterColor().name() + "  win !");
+            started = false;
+        } else {
+            infoLabel.setText(move.getCounterColor().getOtherCounterColor() + "   playing ...");
         }
     }
 }
