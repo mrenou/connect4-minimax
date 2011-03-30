@@ -1,6 +1,5 @@
 package com.xebia.xke.algo.minimax.ui;
 
-import com.xebia.xke.algo.minimax.connect4.Match;
 import com.xebia.xke.algo.minimax.connect4.Move;
 
 import javax.swing.*;

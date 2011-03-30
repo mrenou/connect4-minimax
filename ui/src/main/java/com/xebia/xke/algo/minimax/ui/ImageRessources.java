@@ -9,6 +9,7 @@ public class ImageRessources {
     private ImageIcon redIcon;
     private ImageIcon yellowIcon;
     private ImageIcon emptyIcon;
+    private ImageIcon defaultGravatar;
 
     private static final ImageRessources INSTANCE = new ImageRessources();
 
@@ -16,6 +17,7 @@ public class ImageRessources {
         redIcon = new ImageIcon(this.getClass().getResource("/images/counter-red.png"));
         yellowIcon = new ImageIcon(this.getClass().getResource("/images/counter-yellow.png"));
         emptyIcon = new ImageIcon(this.getClass().getResource("/images/counter-empty.png"));
+        defaultGravatar = new ImageIcon(this.getClass().getResource("/images/default-gravatar.png"));
     }
 
     public static ImageRessources getInstance() {
@@ -45,5 +47,9 @@ public class ImageRessources {
 
     public ImageIcon getEmptyIcon() {
         return emptyIcon;
+    }
+
+    public ImageIcon getDefaultGravatar() {
+        return defaultGravatar;
     }
 }

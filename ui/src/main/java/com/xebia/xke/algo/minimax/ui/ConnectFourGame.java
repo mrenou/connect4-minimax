@@ -3,12 +3,8 @@ package com.xebia.xke.algo.minimax.ui;
 import com.xebia.xke.algo.minimax.connect4.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class ConnectFourGame {
@@ -35,6 +31,7 @@ public class ConnectFourGame {
         borderPanel = new BorderPanel(this);
         playerPanel1 = new PlayerPanel(players.values().toArray(new Player[]{}), "Player 1");
         playerPanel2 = new PlayerPanel(players.values().toArray(new Player[]{}), "Player 2");
+
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
