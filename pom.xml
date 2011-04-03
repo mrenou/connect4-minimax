@@ -15,6 +15,7 @@
         <module>players/player-medium</module>
         <module>players-test</module>
         <module>ui</module>
+        <module>players/player-timeout</module>
     </modules>
 
     <name>Algo Minimax</name>

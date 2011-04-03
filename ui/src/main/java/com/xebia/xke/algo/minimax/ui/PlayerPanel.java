@@ -34,20 +34,15 @@ public class PlayerPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         playerList = new JComboBox(players);
-
         playerList.setRenderer(new ListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList jList, Object o, int i, boolean b, boolean b1) {
                 return new JLabel(((Player)o).getName());
             }
         });
-
         playerList.setPreferredSize(new Dimension(100, 50));
         playerList.setMinimumSize(new Dimension(100, 50));
         playerList.setMaximumSize(new Dimension(100, 50));
-
-        //playerList.setSize(30, 30);
-        //playerList.setMaximumSize(new Dimension(50, 50));
         playerList.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerList.setAlignmentY(Component.TOP_ALIGNMENT);
 

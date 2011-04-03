@@ -23,7 +23,7 @@ public class ConnectFourGame {
     private PlayerPanel playerPanel2;
     private BorderPanel borderPanel;
     private Tournament tournament;
-    private boolean tournamentMode = true;
+    private boolean tournamentMode = false;
 
     public Component createComponents() {
         //TODO where, when ?
@@ -43,7 +43,7 @@ public class ConnectFourGame {
         panel.add(playerPanel2);
 
         PlayerRunner playerRunner = new PlayerRunner(this);
-        Thread thread = new Thread(playerRunner);
+        Thread thread = new Thread(playerRunner, "player-thread");
         thread.start();
 
         return panel;
@@ -84,7 +84,7 @@ public class ConnectFourGame {
             playerPanel1.updateSelectedPlayer(match.getPlayer1());
             playerPanel2.updateSelectedPlayer(match.getPlayer2());
         } else {
-            match = new Match(playerPanel1.getSelectedPlayer(), playerPanel2.getSelectedPlayer());
+            match = new Match(playerPanel1.getSelectedPlayer(), playerPanel2.getSelectedPlayer(), 10000);
         }
         playerPanel1.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer1()));
         playerPanel2.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer2()));

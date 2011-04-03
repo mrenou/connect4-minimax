@@ -1,5 +1,6 @@
 package com.xebia.xke.algo.minimax.ui;
 
+import com.xebia.xke.algo.minimax.connect4.CounterColor;
 import com.xebia.xke.algo.minimax.connect4.Move;
 
 import javax.swing.*;
@@ -148,6 +149,9 @@ public class BorderPanel extends JPanel {
         }
         if (move.isWinningMove()) {
             infoLabel.setText(move.getCounterColor().name() + "  win ! Click to restart");
+            started = false;
+        } else if (move.isTimeoutMove()) {
+            infoLabel.setText(move.getCounterColor().getOtherCounterColor().name() + "  win ! Click to restart");
             started = false;
         } else {
             infoLabel.setText(move.getCounterColor().getOtherCounterColor() + "   playing ...");

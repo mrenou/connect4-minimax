@@ -14,7 +14,15 @@ public class Match {
 
     private ConnectFour connectFour;
 
+    private Player winner;
+
+    private int timeout = 0;
+
     public Match(Player player1, Player player2) {
+        this(player1, player2, 0);
+    }
+
+    public Match(Player player1, Player player2, int timeout) {
         connectFour = new ConnectFour();
         if (new Random().nextBoolean()) {
             counterColorPlayer1 = connectFour.getCurrentCounterColor();
@@ -25,6 +33,7 @@ public class Match {
         }
         players.put(counterColorPlayer1, player1);
         players.put(counterColorPlayer2, player2);
+        this.timeout = timeout;
     }
 
     public Player getNextPlayer() {
@@ -32,14 +41,57 @@ public class Match {
     }
 
     public Move playNextTurn() {
-        Player currentPlayer = players.get(connectFour.getCurrentCounterColor());
-        int columnPlayed = currentPlayer.play(connectFour.getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
+        final Player currentPlayer = getNextPlayer();
 
-        return playNextTurn(columnPlayed);
+        if (timeout > 0) {
+            final int[] columnPlayed = new int[1];
+            final boolean[] played = new boolean[1];
+
+            final Thread currentThread = Thread.currentThread();
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    columnPlayed[0] = currentPlayer.play(getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
+                    synchronized (played) {
+                        played[0] = true;
+                    }
+                    currentThread.interrupt();
+                }
+            }, "timeout-thread");
+            t.start();
+            try {
+                Thread.sleep(timeout);
+            } catch (InterruptedException e) {
+
+            }
+
+            // check if the turn is played
+            synchronized (played) {
+                if (!played[0]) {
+                    timeout();
+                    t.stop();
+                    return Move.createTimeoutMove(getCurrentCounterColor());
+                }
+            }
+
+            //return the column played
+            return playNextTurn(columnPlayed[0]);
+        } else {
+            return playNextTurn(currentPlayer.play(getCurrentCounterColor(), (Board) connectFour.getBoard().clone()));
+        }
     }
 
     public Move playNextTurn(int columnIndex) {
-        return connectFour.putCounter(columnIndex);
+        if (this.isEndMatch()) {
+            throw new IllegalStateException("The match is ended.");
+        }
+        Move move = connectFour.putCounter(columnIndex);
+        // TODO invalid move ?
+        if (move.isWinningMove()) {
+            winner =  players.get(move.getCounterColor());
+        }
+        return move;
     }
 
     public Player play() {
@@ -70,7 +122,7 @@ public class Match {
     }
 
     public boolean isEndMatch() {
-        return connectFour.isEndGame();
+        return winner != null || connectFour.isEndGame();
     }
 
     public CounterColor getCounterColorPlayer1() {
@@ -87,5 +139,9 @@ public class Match {
 
     public Player getPlayer2() {
         return players.get(counterColorPlayer2);
+    }
+
+    private void timeout() {
+        winner = players.get(connectFour.getCurrentCounterColor().getOtherCounterColor());
     }
 }

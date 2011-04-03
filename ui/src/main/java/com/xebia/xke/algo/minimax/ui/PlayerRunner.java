@@ -8,11 +8,11 @@ public class PlayerRunner implements Runnable {
         this.connectFourGame = connectFourGame;
     }
 
-    private void sleepAutoPlayersThread() {
+    private void sleepAutoPlayersThread(long sleepTime) {
         synchronized (connectFourGame.getWakeUpFlag()) {
             try {
                 synchronized (connectFourGame.getWakeUpFlag()) {
-                    connectFourGame.getWakeUpFlag().wait();
+                    connectFourGame.getWakeUpFlag().wait(0);
                 }
             }catch (InterruptedException e) {
                 //
@@ -23,17 +23,14 @@ public class PlayerRunner implements Runnable {
     @Override
     public void run() {
         while (true) {
-            sleepAutoPlayersThread();
+            sleepAutoPlayersThread(0);
 
             while (!connectFourGame.getMatch().isEndMatch()) {
+
                 connectFourGame.noHumanturn();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    
-                }
+
                 if (connectFourGame.getMatch().getNextPlayer() instanceof HumanPlayer) {
-                    sleepAutoPlayersThread();
+                    sleepAutoPlayersThread(0);
                 }
             }
         }
