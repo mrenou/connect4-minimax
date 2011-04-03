@@ -82,4 +82,8 @@ public class PlayerPanel extends JPanel {
     public void updateCounterLabel(Icon icon) {
         playerCounterLabel.setIcon(icon);
     }
+
+    public void updateSelectedPlayer(Player player) {
+        playerList.setSelectedItem(player);
+    }
 }

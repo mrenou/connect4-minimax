@@ -27,7 +27,7 @@ public class TournamentTest {
         for (Player player : players.values()) {
             tournament.addPlayer(player);
         }
-        tournament.initMatches();
+        tournament.start();
         tournament.playAllMatches();
 
         System.out.println(tournament.getStringtScores());
@@ -46,7 +46,7 @@ public class TournamentTest {
         tournament.addPlayer(player3);
         tournament.addPlayer(player4);
 
-        tournament.initMatches();
+        tournament.start();
 
         assertThat(tournament.matches.size()).isEqualTo(6);
 
@@ -74,6 +74,8 @@ public class TournamentTest {
         tournament.addPlayer(player1);
         tournament.addPlayer(player2);
         tournament.matches.add(match);
+
+        tournament.running = true;
         tournament.playNextMatch();
 
         assertThat(tournament.getScore(player1)).isEqualTo(1);
@@ -94,6 +96,7 @@ public class TournamentTest {
         tournament.addPlayer(player1);
         tournament.addPlayer(player2);
         tournament.matches.add(match);
+        tournament.running = true;
         tournament.playNextMatch();
 
         assertThat(tournament.getScore(player1)).isEqualTo(3);
@@ -115,6 +118,7 @@ public class TournamentTest {
         tournament.addPlayer(player1);
         tournament.addPlayer(player2);
         tournament.matches.add(match);
+        tournament.running = true;
         tournament.playNextMatch();
 
         assertThat(tournament.getScore(player1)).isEqualTo(0);
@@ -171,6 +175,7 @@ public class TournamentTest {
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player4);
         tournament.matches.add(match);
 
+        tournament.running = true;
         tournament.playAllMatches();
 
         assertThat(tournament.getStringtScores()).isEqualTo("1 player3 9\n" +
@@ -229,6 +234,7 @@ public class TournamentTest {
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player4);
         tournament.matches.add(match);
 
+        tournament.running = true;
         tournament.playAllMatches();
 
         assertThat(tournament.getScores().size()).isEqualTo(4);
@@ -277,6 +283,7 @@ public class TournamentTest {
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player3);
         tournament.matches.add(match);
 
+        tournament.running = true;
         tournament.playNextMatch();
 
         Mockito.verify(nextMatch, Mockito.times(1)).play();
@@ -316,6 +323,7 @@ public class TournamentTest {
         tournament.matches.add(match);
         matches.add(match);
 
+        tournament.running = true;
         tournament.playAllMatches();
 
         Mockito.verify(matches.get(0), Mockito.times(1)).play();
@@ -325,6 +333,74 @@ public class TournamentTest {
         assertThat(tournament.matches.size()).isEqualTo(0);
     }
 
+    @Test
+    public void should_reinit_scores() {
+        List<Match> matches = new ArrayList<Match>();
+
+        Player player1 = getFakePlayer("player1");
+        Player player2 = getFakePlayer("player2");
+        Player player3 = getFakePlayer("player3");
+
+        Tournament tournament = new Tournament();
+        tournament.addPlayer(player1);
+        tournament.addPlayer(player2);
+        tournament.addPlayer(player3);
+
+        Match match = mock(Match.class);
+        when(match.play()).thenReturn(player2);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        match = mock(Match.class);
+        when(match.play()).thenReturn(player3);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player3);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        match = mock(Match.class);
+        when(match.play()).thenReturn(player3);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player2);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player3);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        tournament.running = true;
+        tournament.playAllMatches();
+
+
+        assertThat(tournament.getScores().get(0).getScore()).isEqualTo(6);
+        assertThat(tournament.getScores().get(1).getScore()).isEqualTo(3);
+        assertThat(tournament.getScores().get(2).getScore()).isEqualTo(0);
+
+        tournament.start();
+
+        assertThat(tournament.getScores().get(0).getScore()).isEqualTo(0);
+        assertThat(tournament.getScores().get(1).getScore()).isEqualTo(0);
+        assertThat(tournament.getScores().get(2).getScore()).isEqualTo(0);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_throw_exception_if_running() {
+        Tournament tournament = new Tournament();
+
+
+        tournament.running = true;
+
+        tournament.checkIfNotRunning();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_throw_exception_if_not_running() {
+        Tournament tournament = new Tournament();
+
+
+        tournament.running = false;
+
+        tournament.checkIfRunning();
+    }
 
     public Player getFakePlayer(final String playerName) {
         AtomicReference<Player> player = new AtomicReference<Player>(new Player() {
@@ -344,5 +420,141 @@ public class TournamentTest {
             }
         });
         return player.get();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_check_if_not_running_when_add_player() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = true;
+
+        tournament.addPlayer(Mockito.mock(Player.class));
+        tournament.start();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_check_if_not_running_when_start() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = true;
+
+        tournament.start();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_check_if_not_running_when_play_next_match() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = false;
+
+        tournament.playNextMatch();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_check_if_not_running_when_play_all_match() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = false;
+
+        tournament.playAllMatches();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_check_if_not_running_when_poll_next_match() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = false;
+
+        tournament.pollNextMatch();
+    }
+
+    @Test
+    public void set_running_true_when_start() {
+        Tournament tournament = new Tournament();
+
+        tournament.running = false;
+
+        tournament.start();
+
+        assertThat(tournament.running).isEqualTo(true);
+    }
+
+    @Test
+    public void set_running_false_when_set_match_result() {
+        List<Match> matches = new ArrayList<Match>();
+
+        Player player1 = getFakePlayer("player1");
+        Player player2 = getFakePlayer("player2");
+
+        Tournament tournament = new Tournament();
+        tournament.addPlayer(player1);
+        tournament.addPlayer(player2);
+
+        Match match = mock(Match.class);
+        when(match.play()).thenReturn(player2);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        tournament.running = true;
+
+
+        Match currentMatch = tournament.pollNextMatch();
+
+        Player winner = currentMatch.play();
+        tournament.setMatchResult(winner, match);
+
+        assertThat(tournament.running).isEqualTo(false);
+    }
+
+    @Test
+    public void should_set_match_result() {
+        List<Match> matches = new ArrayList<Match>();
+
+        Player player1 = getFakePlayer("player1");
+        Player player2 = getFakePlayer("player2");
+        Player player3 = getFakePlayer("player3");
+
+        Tournament tournament = new Tournament();
+        tournament.addPlayer(player1);
+        tournament.addPlayer(player2);
+        tournament.addPlayer(player3);
+
+        Match match = mock(Match.class);
+        when(match.play()).thenReturn(player2);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        match = mock(Match.class);
+        when(match.play()).thenReturn(player3);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player3);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        match = mock(Match.class);
+        when(match.play()).thenReturn(player3);
+        when(match.getPlayer(CounterColor.RED)).thenReturn(player2);
+        when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player3);
+        tournament.matches.add(match);
+        matches.add(match);
+
+        tournament.running = true;
+
+        while (tournament.getNextMatch() != null) {
+            Match currentMatch = tournament.pollNextMatch();
+
+            Player winner = currentMatch.play();
+            tournament.setMatchResult(winner, match);
+        }
+
+
+
+        assertThat(tournament.getScores().get(0).getScore()).isEqualTo(6);
+        assertThat(tournament.getScores().get(1).getScore()).isEqualTo(3);
+        assertThat(tournament.getScores().get(2).getScore()).isEqualTo(0);
     }
 }

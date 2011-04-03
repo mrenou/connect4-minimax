@@ -109,7 +109,7 @@ public class BorderPanel extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (!started) {
                     started = true;
-                    connectFourGame.reset();
+                    connectFourGame.start();
                 } else {
                     connectFourGame.humanTurn();
                 }
@@ -156,5 +156,9 @@ public class BorderPanel extends JPanel {
 
     public int getSelectedColumn() {
         return jtable.getSelectedColumn();
+    }
+
+    public void displayInfo(String message) {
+        infoLabel.setText(message);
     }
 }

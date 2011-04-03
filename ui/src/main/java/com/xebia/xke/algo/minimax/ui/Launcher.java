@@ -1,5 +1,9 @@
 package com.xebia.xke.algo.minimax.ui;
 
+import com.xebia.xke.algo.minimax.connect4.Match;
+import com.xebia.xke.algo.minimax.connect4.Player;
+import com.xebia.xke.algo.minimax.connect4.Tournament;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -21,6 +25,8 @@ public class Launcher {
 
         frame.pack();
         frame.setVisible(true);
+
+       
 
         try {
             Thread.sleep(500000);

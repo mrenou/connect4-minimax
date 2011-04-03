@@ -22,11 +22,14 @@ public class ConnectFourGame {
     private PlayerPanel playerPanel1;
     private PlayerPanel playerPanel2;
     private BorderPanel borderPanel;
+    private Tournament tournament;
+    private boolean tournamentMode = true;
 
     public Component createComponents() {
         //TODO where, when ?
         initPlayers();
-
+        tournament = new Tournament();
+        tournament.addPlayers(players.values());
 
         borderPanel = new BorderPanel(this);
         playerPanel1 = new PlayerPanel(players.values().toArray(new Player[]{}), "Player 1");
@@ -67,11 +70,22 @@ public class ConnectFourGame {
             //TODO show error dialog
             throw new RuntimeException("Cannot load players.", e);
         }
-        players.put("Human", new HumanPlayer());
+        if (!tournamentMode) {
+            players.put("Human", new HumanPlayer());
+        }
     }
 
-    public void reset() {
-        match = new Match(playerPanel1.getSelectedPlayer(), playerPanel2.getSelectedPlayer());
+    public void start() {
+        if (tournamentMode) {
+            if (!tournament.isRunning()) {
+                tournament.start();
+            }
+            match = tournament.pollNextMatch();
+            playerPanel1.updateSelectedPlayer(match.getPlayer1());
+            playerPanel2.updateSelectedPlayer(match.getPlayer2());
+        } else {
+            match = new Match(playerPanel1.getSelectedPlayer(), playerPanel2.getSelectedPlayer());
+        }
         playerPanel1.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer1()));
         playerPanel2.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer2()));
         infoLabel.setText(match.getCurrentCounterColor() + "   playing ...");
@@ -87,6 +101,15 @@ public class ConnectFourGame {
         if (!(player instanceof HumanPlayer)) {
             Move move = match.playNextTurn();
             borderPanel.setMove(move);
+
+            if (move.isWinningMove() && tournamentMode) {
+                tournament.setMatchResult(player, match);
+                if (tournament.isRunning()) {
+                    start();
+                } else {
+                    borderPanel.displayInfo(tournament.getStringtScores());
+                }
+            }
         }
     }
 

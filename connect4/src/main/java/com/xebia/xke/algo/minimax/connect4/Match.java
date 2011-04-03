@@ -80,4 +80,12 @@ public class Match {
     public CounterColor getCounterColorPlayer2() {
         return counterColorPlayer2;
     }
+
+    public Player getPlayer1() {
+        return players.get(counterColorPlayer1);
+    }
+
+    public Player getPlayer2() {
+        return players.get(counterColorPlayer2);
+    }
 }

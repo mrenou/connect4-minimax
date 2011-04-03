@@ -25,4 +25,8 @@ public class PlayerScored {
     public void addPoints(int points) {
         score += points;
     }
+
+    public void reset() {
+        score = 0;
+    }
 }

@@ -27,6 +27,11 @@ public class PlayerRunner implements Runnable {
 
             while (!connectFourGame.getMatch().isEndMatch()) {
                 connectFourGame.noHumanturn();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    
+                }
                 if (connectFourGame.getMatch().getNextPlayer() instanceof HumanPlayer) {
                     sleepAutoPlayersThread();
                 }
