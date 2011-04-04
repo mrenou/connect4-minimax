@@ -16,7 +16,7 @@ public class BorderPanel extends JPanel {
 
     private DefaultTableModel defaultTableModel;
 
-    private JLabel infoLabel = new JLabel();
+    private JLabel infoLabel;
 
     private ConnectFourGame connectFourGame;
 
@@ -49,6 +49,9 @@ public class BorderPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         defaultTableModel = buildTableModel();
         jtable = buildJTable(defaultTableModel);
+        infoLabel = new JLabel();
+        Font font = new Font("Verdana", 30, 30);
+        infoLabel.setFont(font);
         this.add(jtable);
         this.add(infoLabel);
     }

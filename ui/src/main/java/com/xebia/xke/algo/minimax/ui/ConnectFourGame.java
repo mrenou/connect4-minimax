@@ -13,8 +13,6 @@ public class ConnectFourGame {
 
     private Map<String, PlayerLoader> playerLoaders;
 
-    private JLabel infoLabel = new JLabel();
-
     private Match match;
 
     private Object wakeUpFlag = new Object();
@@ -89,7 +87,6 @@ public class ConnectFourGame {
         }
         playerPanel1.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer1()));
         playerPanel2.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer2()));
-        infoLabel.setText(match.getCurrentCounterColor() + "   playing ...");
         borderPanel.resetBoard();
         if (!(match.getNextPlayer() instanceof HumanPlayer)) {
             wakeUpAutoPlayersThread();
@@ -138,5 +135,13 @@ public class ConnectFourGame {
 
     public Tournament getTournament() {
         return tournament;
+    }
+
+    public boolean isTournamentMode() {
+        return tournamentMode;
+    }
+
+    public void displayInfo(String message) {
+        borderPanel.displayInfo(message);
     }
 }
