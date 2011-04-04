@@ -23,11 +23,21 @@ public class PlayerRunner implements Runnable {
     @Override
     public void run() {
         while (true) {
-            sleepAutoPlayersThread(0);
+            if (connectFourGame.getTournament().isRunning()) {
+                connectFourGame.start();
+            } else {
+                sleepAutoPlayersThread(0);
+            }
 
             while (!connectFourGame.getMatch().isEndMatch()) {
 
                 connectFourGame.noHumanturn();
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+
+                }
 
                 if (connectFourGame.getMatch().getNextPlayer() instanceof HumanPlayer) {
                     sleepAutoPlayersThread(0);

@@ -15,17 +15,31 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TournamentTest {
+
+    class FakePlayer extends SimplePlayer {
+
+        @Override
+        public int play(CounterColor counterColor, Board board) {
+            return 0;
+        }
+
+        @Override
+        public String getStats() {
+            return null;
+        }
+    }
+
     @Test
     public void testStart2() throws Exception {
-        PlayerLoader playerLoader = new PlayerLoader(new File(PlayerLoaderTest.class.getResource("/players").getFile()));
+        PlayerLoadersLoader playerLoadersLoader = new PlayerLoadersLoader(new File(PlayerLoadersLoaderTest.class.getResource("/players").getFile()));
 
-        Map<String, Player> players = playerLoader.loadAllPlayers();
+        Map<String, PlayerLoader> players = playerLoadersLoader.loadAllPlayers();
 
 
         Tournament tournament = new Tournament();
 
-        for (Player player : players.values()) {
-            tournament.addPlayer(player);
+        for (PlayerLoader player : players.values()) {
+            tournament.addPlayerLoader(player);
         }
         tournament.start();
         tournament.playAllMatches();
@@ -35,16 +49,21 @@ public class TournamentTest {
 
     @Test
     public void init_matches_should_create_all_matches() {
-        Player player1 = mock(Player.class);
-        Player player2 = mock(Player.class);
-        Player player3 = mock(Player.class);
-        Player player4 = mock(Player.class);
+        Player player1 = getFakePlayer("player1");
+        Player player2 = getFakePlayer("player2");
+        Player player3 = getFakePlayer("player3");
+        Player player4 = getFakePlayer("player4");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+        PlayerLoader playerLoader4 = getMockPlayerLoader("player4", player4);
+
         Tournament tournament = new Tournament();
 
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
-        tournament.addPlayer(player4);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
+        tournament.addPlayerLoader(playerLoader4);
 
         tournament.start();
 
@@ -58,34 +77,44 @@ public class TournamentTest {
         assertThat(tournament.matches.poll().getPlayers().values().containsAll(Arrays.asList(player3, player4))).isTrue();
     }
 
+    private PlayerLoader getMockPlayerLoader(String name, Player player) {
+        PlayerLoader playerLoader = Mockito.mock(PlayerLoader.class);
+
+        when(playerLoader.getName()).thenReturn(name);
+        when(playerLoader.loadPlayer()).thenReturn(player);
+        return playerLoader;
+    }
+
     @Test
     public void each_player_win_one_point_if_draw() {
         Player player1 = getFakePlayer("player1");
         Player player2 = getFakePlayer("player2");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(null);
         when(match.getPlayer(CounterColor.RED)).thenReturn(player1);
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
 
-
-
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
         tournament.matches.add(match);
 
         tournament.running = true;
         tournament.playNextMatch();
 
-        assertThat(tournament.getScore(player1)).isEqualTo(1);
-        assertThat(tournament.getScore(player2)).isEqualTo(1);
+        assertThat(tournament.getScore(playerLoader1)).isEqualTo(1);
+        assertThat(tournament.getScore(playerLoader2)).isEqualTo(1);
     }
 
     @Test
     public void red_player_win_one_point_if_win() {
         Player player1 = getFakePlayer("player1");
         Player player2 = getFakePlayer("player2");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player1);
@@ -93,14 +122,14 @@ public class TournamentTest {
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
 
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
         tournament.matches.add(match);
         tournament.running = true;
         tournament.playNextMatch();
 
-        assertThat(tournament.getScore(player1)).isEqualTo(3);
-        assertThat(tournament.getScore(player2)).isEqualTo(0);
+        assertThat(tournament.getScore(playerLoader1)).isEqualTo(3);
+        assertThat(tournament.getScore(playerLoader2)).isEqualTo(0);
     }
 
 
@@ -108,6 +137,8 @@ public class TournamentTest {
     public void yellow_player_win_one_point_if_win() {
         Player player1 = getFakePlayer("player1");
         Player player2 = getFakePlayer("player2");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player2);
@@ -115,14 +146,14 @@ public class TournamentTest {
         when(match.getPlayer(CounterColor.YELLOW)).thenReturn(player2);
 
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
         tournament.matches.add(match);
         tournament.running = true;
         tournament.playNextMatch();
 
-        assertThat(tournament.getScore(player1)).isEqualTo(0);
-        assertThat(tournament.getScore(player2)).isEqualTo(3);
+        assertThat(tournament.getScore(playerLoader1)).isEqualTo(0);
+        assertThat(tournament.getScore(playerLoader2)).isEqualTo(3);
     }
 
     @Test
@@ -131,12 +162,16 @@ public class TournamentTest {
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
         Player player4 = getFakePlayer("player4");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+        PlayerLoader playerLoader4 = getMockPlayerLoader("player4", player4);
 
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
-        tournament.addPlayer(player4);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
+        tournament.addPlayerLoader(playerLoader4);
 
 
         Match match = mock(Match.class);
@@ -190,12 +225,16 @@ public class TournamentTest {
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
         Player player4 = getFakePlayer("player4");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+        PlayerLoader playerLoader4 = getMockPlayerLoader("player4", player4);
 
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
-        tournament.addPlayer(player4);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
+        tournament.addPlayerLoader(playerLoader4);
 
 
         Match match = mock(Match.class);
@@ -240,16 +279,16 @@ public class TournamentTest {
         assertThat(tournament.getScores().size()).isEqualTo(4);
 
         assertThat(tournament.getScores().get(0).getScore()).isEqualTo(9);
-        assertThat(tournament.getScores().get(0).getPlayer()).isSameAs(player3);
+        assertThat(tournament.getScores().get(0).getPlayerLoader()).isSameAs(playerLoader3);
 
         assertThat(tournament.getScores().get(1).getScore()).isEqualTo(4);
-        assertThat(tournament.getScores().get(1).getPlayer()).isSameAs(player2);
+        assertThat(tournament.getScores().get(1).getPlayerLoader()).isSameAs(playerLoader2);
 
         assertThat(tournament.getScores().get(2).getScore()).isEqualTo(4);
-        assertThat(tournament.getScores().get(2).getPlayer()).isSameAs(player4);
+        assertThat(tournament.getScores().get(2).getPlayerLoader()).isSameAs(playerLoader4);
 
         assertThat(tournament.getScores().get(3).getScore()).isEqualTo(0);
-        assertThat(tournament.getScores().get(3).getPlayer()).isSameAs(player1);
+        assertThat(tournament.getScores().get(3).getPlayerLoader()).isSameAs(playerLoader1);
 
     }
 
@@ -259,11 +298,14 @@ public class TournamentTest {
         Player player1 = getFakePlayer("player1");
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
 
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
 
         Match nextMatch = mock(Match.class);
         when(nextMatch.play()).thenReturn(player2);
@@ -297,10 +339,14 @@ public class TournamentTest {
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
 
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player2);
@@ -341,10 +387,14 @@ public class TournamentTest {
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
 
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player2);
@@ -403,23 +453,9 @@ public class TournamentTest {
     }
 
     public Player getFakePlayer(final String playerName) {
-        AtomicReference<Player> player = new AtomicReference<Player>(new Player() {
-            @Override
-            public int play(CounterColor counterColor, Board board) {
-                return 0;
-            }
-
-            @Override
-            public String getStats() {
-                return null;
-            }
-
-            @Override
-            public String getName() {
-                return playerName;
-            }
-        });
-        return player.get();
+        Player player = new FakePlayer();
+        player.setName(playerName);
+        return player;
     }
 
     @Test(expected = IllegalStateException.class)
@@ -428,7 +464,7 @@ public class TournamentTest {
 
         tournament.running = true;
 
-        tournament.addPlayer(Mockito.mock(Player.class));
+        tournament.addPlayerLoader(Mockito.mock(PlayerLoader.class));
         tournament.start();
     }
 
@@ -486,9 +522,13 @@ public class TournamentTest {
         Player player1 = getFakePlayer("player1");
         Player player2 = getFakePlayer("player2");
 
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player2);
@@ -516,10 +556,14 @@ public class TournamentTest {
         Player player2 = getFakePlayer("player2");
         Player player3 = getFakePlayer("player3");
 
+        PlayerLoader playerLoader1 = getMockPlayerLoader("player1", player1);
+        PlayerLoader playerLoader2 = getMockPlayerLoader("player2", player2);
+        PlayerLoader playerLoader3 = getMockPlayerLoader("player3", player3);
+
         Tournament tournament = new Tournament();
-        tournament.addPlayer(player1);
-        tournament.addPlayer(player2);
-        tournament.addPlayer(player3);
+        tournament.addPlayerLoader(playerLoader1);
+        tournament.addPlayerLoader(playerLoader2);
+        tournament.addPlayerLoader(playerLoader3);
 
         Match match = mock(Match.class);
         when(match.play()).thenReturn(player2);

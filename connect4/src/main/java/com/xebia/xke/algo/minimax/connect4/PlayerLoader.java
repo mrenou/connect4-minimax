@@ -13,78 +13,28 @@ import java.util.Properties;
 
 public class PlayerLoader {
 
-    private File jarDirectory;
+    private String name;
 
-    public PlayerLoader(File jarDirectory) {
-        this.jarDirectory = jarDirectory;
+    private Class<? extends Player> playerClass;
+
+    public PlayerLoader(String name, Class<? extends Player> playerClass) {
+        this.name = name;
+        this.playerClass = playerClass;
     }
 
-    public Map<String, Player> loadAllPlayers() throws PlayerLoadingException {
-        Map<String, Player> players = new HashMap<String,Player>();
-
-        File[] jarFiles = jarDirectory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) {
-                if (s.endsWith(".jar")) {
-                    return true;
-                }
-                return false;
-            }
-
-        });
-        for (File jarFile : jarFiles) {
-            Player player = loadPlayer(jarFile);
-
-            players.put(player.getName(), player);
-        }
-        return players;
-    }
-
-    private Player loadPlayer(File jarFile) throws PlayerLoadingException {
-        if (!jarFile.exists()) {
-            throw new PlayerLoadingException("Jar file doesn't exist : " + jarFile.getAbsolutePath());
-        }
+    public Player loadPlayer() {
         try {
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {jarFile.toURI().toURL()});
-            String className = getPlayerClassName(jarFile, classLoader);
-            Class<Player> clazz = (Class<Player>) classLoader.loadClass(className);
-            Player player = clazz.newInstance();
+            Player player = playerClass.newInstance();
+            player.setName(name);
             return player;
-        } catch (MalformedURLException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
-        } catch (ClassNotFoundException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
         } catch (InstantiationException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
+            throw new IllegalStateException("Cannot create instance from class : " + playerClass.getName(), e);
         } catch (IllegalAccessException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
+             throw new IllegalStateException("Cannot create instance from class : " + playerClass.getName(), e);
         }
     }
 
-    private String getPlayerClassName(File jarFile, URLClassLoader classLoader) throws PlayerLoadingException {
-        InputStream playerPropertiesIS = null;
-        Properties properties = new Properties();
-        try {
-            URL playerPropertiesURL = classLoader.findResource("player.properties");
-
-            if (playerPropertiesURL == null) {
-                throw new PlayerLoadingException("Cannot load player.properties from jar : " + jarFile.getAbsolutePath());
-            }
-
-            playerPropertiesIS = playerPropertiesURL.openStream();
-            properties.load(playerPropertiesIS);
-        } catch (IOException e) {
-            throw new PlayerLoadingException("Cannot load player.properties from jar : " + jarFile.getAbsolutePath(), e);
-        } finally {
-            if (playerPropertiesIS != null) {
-                try {
-                    playerPropertiesIS.close();
-                } catch (IOException e) {
-                    //
-                }
-            }
-        }
-        return properties.getProperty("player.class");
+    public String getName() {
+        return name;
     }
-
 }

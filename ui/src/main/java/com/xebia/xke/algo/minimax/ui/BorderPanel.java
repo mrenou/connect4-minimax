@@ -1,6 +1,5 @@
 package com.xebia.xke.algo.minimax.ui;
 
-import com.xebia.xke.algo.minimax.connect4.CounterColor;
 import com.xebia.xke.algo.minimax.connect4.Move;
 
 import javax.swing.*;
@@ -141,11 +140,13 @@ public class BorderPanel extends JPanel {
     }
 
     public void setMove(Move move) {
-        if (!move.isValidMove()) {
-            //TODO show error dialog ?
-            System.out.println("Not valid");
-        } else {
-            defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
+        if (!move.isTimeoutMove()) {
+            if (!move.isValidMove()) {
+                //TODO show error dialog ?
+                System.out.println("Not valid");
+            } else {
+                defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
+            }
         }
         if (move.isWinningMove()) {
             infoLabel.setText(move.getCounterColor().name() + "  win ! Click to restart");

@@ -2,20 +2,17 @@ package com.xebia.xke.algo.minimax.connect4;
 
 public class PlayerScored {
 
-    private Player player;
+    private PlayerLoader playerLoader;
 
     private Integer score = 0;
 
-    public PlayerScored(Player player) {
-        this.player = player;
+
+    public PlayerScored(PlayerLoader playerLoader) {
+        this.playerLoader = playerLoader;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
+    public PlayerLoader getPlayerLoader() {
+        return playerLoader;
     }
 
     public Integer getScore() {

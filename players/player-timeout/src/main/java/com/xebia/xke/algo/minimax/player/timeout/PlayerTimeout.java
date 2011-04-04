@@ -2,9 +2,9 @@ package com.xebia.xke.algo.minimax.player.timeout;
 
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
-import com.xebia.xke.algo.minimax.connect4.Player;
+import com.xebia.xke.algo.minimax.connect4.SimplePlayer;
 
-public class PlayerTimeout implements Player {
+public class PlayerTimeout extends SimplePlayer {
 
     private String mode = "running";
 
@@ -45,10 +45,5 @@ public class PlayerTimeout implements Player {
     @Override
     public String getStats() {
         return null;
-    }
-
-    @Override
-    public String getName() {
-        return "Timeout";
     }
 }

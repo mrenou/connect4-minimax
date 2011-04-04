@@ -6,5 +6,7 @@ public interface Player {
 
     String getStats();
 
+    void setName(String name);
+
     String getName();
 }

@@ -11,7 +11,7 @@ public class ConnectFourGame {
 
     private static final String DFLT_PLAYERS_DIR = "players/";
 
-    private Map<String, Player> players;
+    private Map<String, PlayerLoader> playerLoaders;
 
     private JLabel infoLabel = new JLabel();
 
@@ -23,17 +23,17 @@ public class ConnectFourGame {
     private PlayerPanel playerPanel2;
     private BorderPanel borderPanel;
     private Tournament tournament;
-    private boolean tournamentMode = false;
+    private boolean tournamentMode = true;
 
     public Component createComponents() {
         //TODO where, when ?
         initPlayers();
         tournament = new Tournament();
-        tournament.addPlayers(players.values());
+        tournament.addPlayerLoaders(playerLoaders.values());
 
         borderPanel = new BorderPanel(this);
-        playerPanel1 = new PlayerPanel(players.values().toArray(new Player[]{}), "Player 1");
-        playerPanel2 = new PlayerPanel(players.values().toArray(new Player[]{}), "Player 2");
+        playerPanel1 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 1");
+        playerPanel2 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 2");
 
 
         JPanel panel = new JPanel();
@@ -62,16 +62,17 @@ public class ConnectFourGame {
     }
 
     private void initPlayers() {
-        PlayerLoader playerLoader = new PlayerLoader(getPlayersDirectory());
+        PlayerLoadersLoader playerLoadersLoader = new PlayerLoadersLoader(getPlayersDirectory());
 
         try {
-            players = playerLoader.loadAllPlayers();
+            playerLoaders = playerLoadersLoader.loadAllPlayers();
         } catch (PlayerLoadingException e) {
             //TODO show error dialog
             throw new RuntimeException("Cannot load players.", e);
         }
         if (!tournamentMode) {
-            players.put("Human", new HumanPlayer());
+            PlayerLoader humanPlayerLoader = new PlayerLoader("Human", HumanPlayer.class);
+            playerLoaders.put("Human", humanPlayerLoader);
         }
     }
 
@@ -81,10 +82,10 @@ public class ConnectFourGame {
                 tournament.start();
             }
             match = tournament.pollNextMatch();
-            playerPanel1.updateSelectedPlayer(match.getPlayer1());
-            playerPanel2.updateSelectedPlayer(match.getPlayer2());
+            playerPanel1.updateSelectedPlayerLoader(playerLoaders.get(match.getPlayer1().getName()));
+            playerPanel2.updateSelectedPlayerLoader(playerLoaders.get(match.getPlayer2().getName()));
         } else {
-            match = new Match(playerPanel1.getSelectedPlayer(), playerPanel2.getSelectedPlayer(), 10000);
+            match = new Match(playerPanel1.getSelectedPlayerLoader().loadPlayer(), playerPanel2.getSelectedPlayerLoader().loadPlayer(), 5000);
         }
         playerPanel1.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer1()));
         playerPanel2.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer2()));
@@ -105,7 +106,7 @@ public class ConnectFourGame {
             if (move.isWinningMove() && tournamentMode) {
                 tournament.setMatchResult(player, match);
                 if (tournament.isRunning()) {
-                    start();
+                    //start();
                 } else {
                     borderPanel.displayInfo(tournament.getStringtScores());
                 }
@@ -133,5 +134,9 @@ public class ConnectFourGame {
 
     public Match getMatch() {
         return match;
+    }
+
+    public Tournament getTournament() {
+        return tournament;
     }
 }

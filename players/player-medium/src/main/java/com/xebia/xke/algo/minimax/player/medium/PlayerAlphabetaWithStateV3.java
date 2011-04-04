@@ -2,11 +2,11 @@ package com.xebia.xke.algo.minimax.player.medium;
 
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
-import com.xebia.xke.algo.minimax.connect4.Player;
+import com.xebia.xke.algo.minimax.connect4.SimplePlayer;
 import com.xebia.xke.algo.minimax.tools.AlphaBeta;
 import com.xebia.xke.algo.minimax.tools.StateConnectFour;
 
-public class PlayerAlphabetaWithStateV3 implements Player {
+public class PlayerAlphabetaWithStateV3 extends SimplePlayer {
 
     AlphaBeta alphaBeta = new AlphaBeta();
     private static final int MAX_DEPTH = 5;
@@ -23,11 +23,5 @@ public class PlayerAlphabetaWithStateV3 implements Player {
     public String getStats() {
         return alphaBeta.getStats();
     }
-
-    @Override
-    public String getName() {
-        return "Medium-2";
-    }
-
 
 }

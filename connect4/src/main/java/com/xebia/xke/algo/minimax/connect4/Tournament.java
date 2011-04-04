@@ -16,11 +16,11 @@ public class Tournament {
     @VisibleForTesting
     boolean running = false;
 
-    public void addPlayer(Player player) {
+    public void addPlayerLoader(PlayerLoader playerLoader) {
         checkIfNotRunning();
-        PlayerScored playerScored = new PlayerScored(player);
+        PlayerScored playerScored = new PlayerScored(playerLoader);
         playerScoredList.add(playerScored);
-        playerScoredMap.put(playerScored.getPlayer().getName(), playerScored);
+        playerScoredMap.put(playerScored.getPlayerLoader().getName(), playerScored);
     }
 
     public void start() {
@@ -30,7 +30,7 @@ public class Tournament {
         while (!tmpPlayers.isEmpty()) {
             PlayerScored player1 = tmpPlayers.poll();
             for (PlayerScored player2 : tmpPlayers) {
-                matches.add(new Match(player1.getPlayer(), player2.getPlayer()));
+                matches.add(new Match(player1.getPlayerLoader().loadPlayer(), player2.getPlayerLoader().loadPlayer(), 5000));
             }
         }
         
@@ -38,9 +38,9 @@ public class Tournament {
         resetScores();
     }
 
-    public void addPlayers(Collection<Player> players) {
-        for (Player player : players) {
-            addPlayer(player);
+    public void addPlayerLoaders(Collection<PlayerLoader> playerLoaders) {
+        for (PlayerLoader playerLoader : playerLoaders) {
+            addPlayerLoader(playerLoader);
         }
     }
 
@@ -89,15 +89,15 @@ public class Tournament {
             @Override
             public int compare(PlayerScored playerScored1, PlayerScored playerScored2) {
                 if (playerScored1.getScore().equals(playerScored2.getScore())) {
-                    return playerScored1.getPlayer().getName().compareTo(playerScored2.getPlayer().getName());
+                    return playerScored1.getPlayerLoader().getName().compareTo(playerScored2.getPlayerLoader().getName());
                 }
                 return playerScored2.getScore() - playerScored1.getScore();
             }
         });
     }
 
-    public Integer getScore(Player player) {
-        return playerScoredMap.get(player.getName()).getScore();
+    public Integer getScore(PlayerLoader playerLoader) {
+        return playerScoredMap.get(playerLoader.getName()).getScore();
     }
 
     public List<PlayerScored> getScores() {
@@ -111,7 +111,7 @@ public class Tournament {
         for (PlayerScored playerScored : playerScoredList) {
             builder.append(i++);
             builder.append(" ");
-            builder.append(playerScored.getPlayer().getName());
+            builder.append(playerScored.getPlayerLoader().getName());
             builder.append(" ");
             builder.append(playerScored.getScore());
             builder.append("\n");

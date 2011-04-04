@@ -1,6 +1,7 @@
 package com.xebia.xke.algo.minimax.ui;
 
 import com.xebia.xke.algo.minimax.connect4.Player;
+import com.xebia.xke.algo.minimax.connect4.PlayerLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,33 +12,33 @@ public class PlayerPanel extends JPanel {
 
     private JLabel playerCounterLabel;
 
-    public PlayerPanel(LayoutManager layoutManager, boolean b, Player[] players, String playerLabel) {
+    public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
         init(players, playerLabel);
     }
 
-    public PlayerPanel(LayoutManager layoutManager, Player[] players, String playerLabel) {
+    public PlayerPanel(LayoutManager layoutManager, PlayerLoader[] players, String playerLabel) {
         super(layoutManager);
         init(players, playerLabel);
     }
 
-    public PlayerPanel(boolean b, Player[] players, String playerLabel) {
+    public PlayerPanel(boolean b, PlayerLoader[] players, String playerLabel) {
         super(b);
         init(players, playerLabel);
     }
 
-    public PlayerPanel(Player[] players, String playerLabel) {
+    public PlayerPanel(PlayerLoader[] players, String playerLabel) {
         init(players, playerLabel);
     }
 
-    private void init(Player[] players, String playerName) {
+    private void init(PlayerLoader[] playerLoaders, String playerName) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        playerList = new JComboBox(players);
+        playerList = new JComboBox(playerLoaders);
         playerList.setRenderer(new ListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList jList, Object o, int i, boolean b, boolean b1) {
-                return new JLabel(((Player)o).getName());
+                return new JLabel(((PlayerLoader)o).getName());
             }
         });
         playerList.setPreferredSize(new Dimension(100, 50));
@@ -70,15 +71,15 @@ public class PlayerPanel extends JPanel {
         //this.add(Box.createVerticalGlue());
     }
 
-    public Player getSelectedPlayer() {
-        return (Player) playerList.getSelectedItem();
+    public PlayerLoader getSelectedPlayerLoader() {
+        return (PlayerLoader) playerList.getSelectedItem();
     }
 
     public void updateCounterLabel(Icon icon) {
         playerCounterLabel.setIcon(icon);
     }
 
-    public void updateSelectedPlayer(Player player) {
-        playerList.setSelectedItem(player);
+    public void updateSelectedPlayerLoader(PlayerLoader playerLoader) {
+        playerList.setSelectedItem(playerLoader);
     }
 }
