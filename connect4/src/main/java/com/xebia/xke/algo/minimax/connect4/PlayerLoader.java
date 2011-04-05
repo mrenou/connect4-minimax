@@ -15,11 +15,16 @@ public class PlayerLoader {
 
     private String name;
 
+    private String gravatarHash;
+
     private Class<? extends Player> playerClass;
 
-    public PlayerLoader(String name, Class<? extends Player> playerClass) {
+    public PlayerLoader(String name, Class<? extends Player> playerClass, String gravatarMail) {
         this.name = name;
         this.playerClass = playerClass;
+        if (gravatarMail != null) {
+            this.gravatarHash = MD5Util.md5Hex(gravatarMail);
+        }
     }
 
     public Player loadPlayer() {
@@ -30,11 +35,15 @@ public class PlayerLoader {
         } catch (InstantiationException e) {
             throw new IllegalStateException("Cannot create instance from class : " + playerClass.getName(), e);
         } catch (IllegalAccessException e) {
-             throw new IllegalStateException("Cannot create instance from class : " + playerClass.getName(), e);
+            throw new IllegalStateException("Cannot create instance from class : " + playerClass.getName(), e);
         }
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getGravatarHash() {
+        return gravatarHash;
     }
 }

@@ -49,15 +49,11 @@ public class PlayerLoadersLoader {
             Properties properties = getPlayerProperties(jarFile, classLoader);
             Class<? extends Player> clazz = (Class<? extends Player>) classLoader.loadClass(properties.getProperty("player.class"));
             String name = properties.getProperty("player.name");
-            Player player = clazz.newInstance();
-            return new PlayerLoader(name, clazz);
+            String gravatarMail = properties.getProperty("player.gravatar.mail");
+            return new PlayerLoader(name, clazz, gravatarMail);
         } catch (MalformedURLException e) {
             throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
         } catch (ClassNotFoundException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
-        } catch (InstantiationException e) {
-            throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
-        } catch (IllegalAccessException e) {
             throw new PlayerLoadingException("Cannot load player from jar : " + jarFile.getAbsolutePath(), e);
         }
     }

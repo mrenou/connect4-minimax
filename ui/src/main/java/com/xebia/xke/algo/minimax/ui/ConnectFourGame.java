@@ -69,7 +69,7 @@ public class ConnectFourGame {
             throw new RuntimeException("Cannot load players.", e);
         }
         if (!tournamentMode) {
-            PlayerLoader humanPlayerLoader = new PlayerLoader("Human", HumanPlayer.class);
+            PlayerLoader humanPlayerLoader = new PlayerLoader("Human", HumanPlayer.class, "");
             playerLoaders.put("Human", humanPlayerLoader);
         }
     }

@@ -1,16 +1,25 @@
 package com.xebia.xke.algo.minimax.ui;
 
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 import com.xebia.xke.algo.minimax.connect4.Player;
 import com.xebia.xke.algo.minimax.connect4.PlayerLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class PlayerPanel extends JPanel {
 
     private JComboBox playerList;
 
     private JLabel playerCounterLabel;
+    private JLabel gravatarLabel;
 
     public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
@@ -46,6 +55,14 @@ public class PlayerPanel extends JPanel {
         playerList.setMaximumSize(new Dimension(100, 50));
         playerList.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerList.setAlignmentY(Component.TOP_ALIGNMENT);
+        playerList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if ("comboBoxChanged".equals(actionEvent.getActionCommand())) {
+                    loadGravatar();
+                }
+            }
+        });
 
 
         playerCounterLabel = new JLabel();
@@ -57,18 +74,33 @@ public class PlayerPanel extends JPanel {
         playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        JLabel gravatarLabel = new JLabel();
+        gravatarLabel = new JLabel();
         gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
         gravatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         gravatarLabel.setAlignmentY(Component.TOP_ALIGNMENT);
-
-
 
         this.add(playerLabel);
         this.add(playerList);
         this.add(playerCounterLabel);
         this.add(gravatarLabel);
         //this.add(Box.createVerticalGlue());
+
+        loadGravatar();
+    }
+
+    public void loadGravatar() {
+        PlayerLoader playerLoader = (PlayerLoader) playerList.getSelectedItem();
+        String urlString = "http://www.gravatar.com/avatar/" + playerLoader.getGravatarHash() + "?s=200";
+
+        try {
+            URL url = new URL(urlString);
+            ImageIcon imageIcon = new ImageIcon(url);
+            gravatarLabel.setIcon(imageIcon);
+        } catch (MalformedURLException e) {
+            gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
+        } catch (IOException e) {
+            gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
+        }
     }
 
     public PlayerLoader getSelectedPlayerLoader() {
