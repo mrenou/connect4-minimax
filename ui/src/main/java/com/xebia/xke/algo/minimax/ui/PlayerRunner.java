@@ -35,7 +35,8 @@ public class PlayerRunner implements Runnable {
             }
 
             if (connectFourGame.isTournamentMode()) {
-                connectFourGame.displayInfo(connectFourGame.getMatch().getPlayer1().getName() + " VS " + connectFourGame.getMatch().getPlayer2().getName());
+                 //TODO show ?
+                //connectFourGame.displayInfo(connectFourGame.getMatch().getPlayer1().getName() + " VS " + connectFourGame.getMatch().getPlayer2().getName());
 
                 try {
                     Thread.sleep(1500);

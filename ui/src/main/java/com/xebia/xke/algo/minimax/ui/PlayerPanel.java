@@ -1,25 +1,25 @@
 package com.xebia.xke.algo.minimax.ui;
 
-import com.sun.corba.se.spi.orbutil.fsm.Input;
-import com.xebia.xke.algo.minimax.connect4.Player;
+import com.xebia.xke.algo.minimax.connect4.CounterColor;
+import com.xebia.xke.algo.minimax.connect4.Move;
 import com.xebia.xke.algo.minimax.connect4.PlayerLoader;
+import sun.plugin.dom.css.Counter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class PlayerPanel extends JPanel {
 
     private JComboBox playerList;
-
     private JLabel playerCounterLabel;
     private JLabel gravatarLabel;
+    private JLabel playerStatusLabel;
+    private CounterColor counterColor;
 
     public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
@@ -79,10 +79,13 @@ public class PlayerPanel extends JPanel {
         gravatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         gravatarLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
+        playerStatusLabel = new JLabel();
+
         this.add(playerLabel);
         this.add(playerList);
-        this.add(playerCounterLabel);
         this.add(gravatarLabel);
+        this.add(playerStatusLabel);
+        this.add(playerCounterLabel);
         //this.add(Box.createVerticalGlue());
 
         loadGravatar();
@@ -107,11 +110,51 @@ public class PlayerPanel extends JPanel {
         return (PlayerLoader) playerList.getSelectedItem();
     }
 
-    public void updateCounterLabel(Icon icon) {
+    public void updateCounterColor(CounterColor counterColor) {
+        ImageIcon icon = ImageRessources.getInstance().getImageIconByCounterColor(counterColor);
+        this.counterColor = counterColor;
         playerCounterLabel.setIcon(icon);
     }
 
     public void updateSelectedPlayerLoader(PlayerLoader playerLoader) {
         playerList.setSelectedItem(playerLoader);
+    }
+
+    private void statusIsTitmeout() {
+        playerStatusLabel.setText("Timeout !");
+    }
+
+    private void statusIsPlaying() {
+        playerStatusLabel.setText("Playing...");
+    }
+
+    private void statusIsWinner() {
+        playerStatusLabel.setText("Winner !");
+    }
+
+    private void statusIsLooser() {
+        playerStatusLabel.setText("Looser !");
+    }
+
+    private void clearStatus() {
+        playerStatusLabel.setText("");
+    }
+
+    public void setMove(Move move) {
+        if (move.isWinningMove()) {
+            if (counterColor.equals(move.getCounterColor())) {
+                statusIsWinner();
+            } else {
+                statusIsLooser();
+            }
+        } else if (move.isTimeoutMove()) {
+            statusIsTitmeout();
+        } else if (move.isValidMove()) {
+            if (move.getCounterColor().equals(counterColor)) {
+                clearStatus();
+            } else {
+                statusIsPlaying();
+            }
+        }
     }
 }

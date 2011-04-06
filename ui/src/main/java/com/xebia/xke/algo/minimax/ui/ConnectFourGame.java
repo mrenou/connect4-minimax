@@ -85,8 +85,8 @@ public class ConnectFourGame {
         } else {
             match = new Match(playerPanel1.getSelectedPlayerLoader().loadPlayer(), playerPanel2.getSelectedPlayerLoader().loadPlayer(), 5000);
         }
-        playerPanel1.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer1()));
-        playerPanel2.updateCounterLabel(ImageRessources.getInstance().getImageIconByCounterColor(match.getCounterColorPlayer2()));
+        playerPanel1.updateCounterColor(match.getCounterColorPlayer1());
+        playerPanel2.updateCounterColor(match.getCounterColorPlayer2());
         borderPanel.resetBoard();
         if (!(match.getNextPlayer() instanceof HumanPlayer)) {
             wakeUpAutoPlayersThread();
@@ -98,14 +98,14 @@ public class ConnectFourGame {
 
         if (!(player instanceof HumanPlayer)) {
             Move move = match.playNextTurn();
-            borderPanel.setMove(move);
+            setMove(move);
 
             if (move.isWinningMove() && tournamentMode) {
                 tournament.setMatchResult(player, match);
                 if (tournament.isRunning()) {
                     //start();
                 } else {
-                    borderPanel.displayInfo(tournament.getStringtScores());
+                   //TODO show scores
                 }
             }
         }
@@ -120,9 +120,15 @@ public class ConnectFourGame {
             if (!(match.getNextPlayer() instanceof HumanPlayer)) {
                 wakeUpAutoPlayersThread();
             }
-            borderPanel.setMove(move);
+            setMove(move);
         }
 
+    }
+
+    private void setMove(Move move) {
+        borderPanel.setMove(move);
+        playerPanel1.setMove(move);
+        playerPanel2.setMove(move);
     }
 
     public Object getWakeUpFlag() {
@@ -142,6 +148,6 @@ public class ConnectFourGame {
     }
 
     public void displayInfo(String message) {
-        borderPanel.displayInfo(message);
+        //TODO global msg ?
     }
 }

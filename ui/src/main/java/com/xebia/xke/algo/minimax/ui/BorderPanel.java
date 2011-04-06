@@ -16,8 +16,6 @@ public class BorderPanel extends JPanel {
 
     private DefaultTableModel defaultTableModel;
 
-    private JLabel infoLabel;
-
     private ConnectFourGame connectFourGame;
 
     public BorderPanel(LayoutManager layoutManager, boolean b, ConnectFourGame connectFourGame) {
@@ -44,16 +42,10 @@ public class BorderPanel extends JPanel {
     }
 
     private void init() {
-        //TODO check
-        this.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         defaultTableModel = buildTableModel();
         jtable = buildJTable(defaultTableModel);
-        infoLabel = new JLabel();
-        Font font = new Font("Verdana", 30, 30);
-        infoLabel.setFont(font);
         this.add(jtable);
-        this.add(infoLabel);
     }
 
     public void resetBoard() {
@@ -151,22 +143,12 @@ public class BorderPanel extends JPanel {
                 defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
             }
         }
-        if (move.isWinningMove()) {
-            infoLabel.setText(move.getCounterColor().name() + "  win ! Click to restart");
+        if (move.isEndingMove()) {
             started = false;
-        } else if (move.isTimeoutMove()) {
-            infoLabel.setText(move.getCounterColor().getOtherCounterColor().name() + "  win ! Click to restart");
-            started = false;
-        } else {
-            infoLabel.setText(move.getCounterColor().getOtherCounterColor() + "   playing ...");
         }
     }
 
     public int getSelectedColumn() {
         return jtable.getSelectedColumn();
-    }
-
-    public void displayInfo(String message) {
-        infoLabel.setText(message);
     }
 }
