@@ -10,6 +10,8 @@ import java.util.Map;
 public class ConnectFourGame {
 
     private static final String DFLT_PLAYERS_DIR = "players/";
+    public static final String GAME_CARD_NAME = "gamePanel";
+    public static final String SCORES_CARD_NAME = "scoresPanel";
 
     private Map<String, PlayerLoader> playerLoaders;
 
@@ -23,7 +25,30 @@ public class ConnectFourGame {
     private Tournament tournament;
     private boolean tournamentMode = true;
 
+    private JPanel cardPanel;
+    private CardLayout cardLayout;
+    private RankingPanel rankingPanel;
+
+
     public Component createComponents() {
+        cardPanel = new JPanel();
+        cardLayout = new CardLayout();
+
+        cardPanel.setLayout(cardLayout);
+
+        rankingPanel = new RankingPanel(this);
+
+        cardPanel.add(getGamePanel(), GAME_CARD_NAME);
+        cardPanel.add(rankingPanel, SCORES_CARD_NAME);
+
+        return cardPanel;
+    }
+
+    private void showCard(String cardName) {
+        cardLayout.show(cardPanel, cardName);
+    }
+
+    private Component getGamePanel() {
         //TODO where, when ?
         initPlayers();
         tournament = new Tournament();
@@ -33,18 +58,18 @@ public class ConnectFourGame {
         playerPanel1 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 1");
         playerPanel2 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 2");
 
+        JPanel gamePanel = new JPanel();
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        panel.add(playerPanel1);
-        panel.add(borderPanel);
-        panel.add(playerPanel2);
+        gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.LINE_AXIS));
+        gamePanel.add(playerPanel1);
+        gamePanel.add(borderPanel);
+        gamePanel.add(playerPanel2);
 
         PlayerRunner playerRunner = new PlayerRunner(this);
         Thread thread = new Thread(playerRunner, "player-thread");
         thread.start();
 
-        return panel;
+        return gamePanel;
     }
 
 
@@ -105,7 +130,9 @@ public class ConnectFourGame {
                 if (tournament.isRunning()) {
                     //start();
                 } else {
-                   //TODO show scores
+                    //TODO show scores
+                    rankingPanel.setClassement(tournament.getScores());
+                    showCard(SCORES_CARD_NAME);
                 }
             }
         }
@@ -149,5 +176,9 @@ public class ConnectFourGame {
 
     public void displayInfo(String message) {
         //TODO global msg ?
+    }
+
+    public void backToGame() {
+        showCard(ConnectFourGame.GAME_CARD_NAME);
     }
 }

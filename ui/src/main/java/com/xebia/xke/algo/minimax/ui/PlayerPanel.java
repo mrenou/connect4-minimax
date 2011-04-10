@@ -3,15 +3,11 @@ package com.xebia.xke.algo.minimax.ui;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
 import com.xebia.xke.algo.minimax.connect4.Move;
 import com.xebia.xke.algo.minimax.connect4.PlayerLoader;
-import sun.plugin.dom.css.Counter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class PlayerPanel extends JPanel {
 
@@ -20,6 +16,7 @@ public class PlayerPanel extends JPanel {
     private JLabel gravatarLabel;
     private JLabel playerStatusLabel;
     private CounterColor counterColor;
+    private static final int WIDTH_PANEL = 100;
 
     public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
@@ -47,14 +44,13 @@ public class PlayerPanel extends JPanel {
         playerList.setRenderer(new ListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList jList, Object o, int i, boolean b, boolean b1) {
-                return new JLabel(((PlayerLoader)o).getName());
+                JLabel label = new JLabel(((PlayerLoader)o).getName());
+                label.setFont(new Font("Verdana", Font.BOLD, 26));
+                return label;
             }
         });
-        playerList.setPreferredSize(new Dimension(100, 50));
-        playerList.setMinimumSize(new Dimension(100, 50));
-        playerList.setMaximumSize(new Dimension(100, 50));
-        playerList.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playerList.setAlignmentY(Component.TOP_ALIGNMENT);
+        setAllComponentSizes(playerList, WIDTH_PANEL, 30);
+        setDefaultAlignment(playerList);
         playerList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -67,43 +63,43 @@ public class PlayerPanel extends JPanel {
 
         playerCounterLabel = new JLabel();
         playerCounterLabel.setIcon(ImageRessources.getInstance().getEmptyIcon());
-        playerCounterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playerCounterLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        setDefaultAlignment(playerCounterLabel);
 
         JLabel playerLabel = new JLabel(playerName);
-        playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playerLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        setDefaultAlignment(playerLabel);
 
         gravatarLabel = new JLabel();
         gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
-        gravatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gravatarLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        setDefaultAlignment(gravatarLabel);
 
         playerStatusLabel = new JLabel();
+        setDefaultAlignment(playerStatusLabel);
+        setAllComponentSizes(playerStatusLabel, WIDTH_PANEL, 20);
 
         this.add(playerLabel);
         this.add(playerList);
         this.add(gravatarLabel);
-        this.add(playerStatusLabel);
         this.add(playerCounterLabel);
+        this.add(playerStatusLabel);
         //this.add(Box.createVerticalGlue());
 
         loadGravatar();
     }
 
+    private void setAllComponentSizes(JComponent component, int width, int height) {
+        component.setPreferredSize(new Dimension(width, height));
+        component.setMinimumSize(new Dimension(width, height));
+        component.setMaximumSize(new Dimension(width, height));
+    }
+
+    private void setDefaultAlignment(JComponent component) {
+        component.setAlignmentX(Component.CENTER_ALIGNMENT);
+        component.setAlignmentY(Component.TOP_ALIGNMENT);
+    }
+
     public void loadGravatar() {
         PlayerLoader playerLoader = (PlayerLoader) playerList.getSelectedItem();
-        String urlString = "http://www.gravatar.com/avatar/" + playerLoader.getGravatarHash() + "?s=200";
-
-        try {
-            URL url = new URL(urlString);
-            ImageIcon imageIcon = new ImageIcon(url);
-            gravatarLabel.setIcon(imageIcon);
-        } catch (MalformedURLException e) {
-            gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
-        } catch (IOException e) {
-            gravatarLabel.setIcon(ImageRessources.getInstance().getDefaultGravatar());
-        }
+        gravatarLabel.setIcon(ImageRessources.getInstance().getGravatar(playerLoader.getGravatarHash(), 200));
     }
 
     public PlayerLoader getSelectedPlayerLoader() {

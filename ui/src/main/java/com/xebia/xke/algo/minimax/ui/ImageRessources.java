@@ -3,6 +3,9 @@ package com.xebia.xke.algo.minimax.ui;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ImageRessources {
 
@@ -51,5 +54,19 @@ public class ImageRessources {
 
     public ImageIcon getDefaultGravatar() {
         return defaultGravatar;
+    }
+
+    public ImageIcon getGravatar(String gravatarHash, int size) {
+        try {
+            String urlString = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=h" + size;
+
+            URL url = new URL(urlString);
+            //return getDefaultGravatar();
+            return new ImageIcon(url);
+        } catch (MalformedURLException e) {
+            return getDefaultGravatar();
+        } catch (IOException e) {
+            return getDefaultGravatar();
+        }
     }
 }
