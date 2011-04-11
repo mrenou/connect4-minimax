@@ -104,7 +104,7 @@ public class BorderPanel extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (!started) {
                     started = true;
-                    connectFourGame.start();
+                    connectFourGame.prepareMatch();
                 } else {
                     connectFourGame.humanTurn();
                 }

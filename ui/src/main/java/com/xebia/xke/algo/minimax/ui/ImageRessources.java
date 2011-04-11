@@ -58,11 +58,12 @@ public class ImageRessources {
 
     public ImageIcon getGravatar(String gravatarHash, int size) {
         try {
-            String urlString = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=h" + size;
+            String urlString = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=" + size;
 
             URL url = new URL(urlString);
-            //return getDefaultGravatar();
-            return new ImageIcon(url);
+            //TODO
+            return getDefaultGravatar();
+            //return new ImageIcon(url);
         } catch (MalformedURLException e) {
             return getDefaultGravatar();
         } catch (IOException e) {

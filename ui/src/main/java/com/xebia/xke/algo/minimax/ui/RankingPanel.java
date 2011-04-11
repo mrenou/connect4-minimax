@@ -12,7 +12,6 @@ import java.util.List;
 
 public class RankingPanel extends JPanel {
 
-
     private ConnectFourGame connectFourGame;
 
     public RankingPanel(LayoutManager layout, boolean isDoubleBuffered, ConnectFourGame connectFourGame) {

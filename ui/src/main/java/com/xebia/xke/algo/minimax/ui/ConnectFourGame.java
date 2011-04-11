@@ -4,6 +4,8 @@ import com.xebia.xke.algo.minimax.connect4.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ public class ConnectFourGame {
     private static final String DFLT_PLAYERS_DIR = "players/";
     public static final String GAME_CARD_NAME = "gamePanel";
     public static final String SCORES_CARD_NAME = "scoresPanel";
+    private static final String MATCH_PRES_CARD_NAME = "matchPresentationPanel";
 
     private Map<String, PlayerLoader> playerLoaders;
 
@@ -22,13 +25,14 @@ public class ConnectFourGame {
     private PlayerPanel playerPanel1;
     private PlayerPanel playerPanel2;
     private BorderPanel borderPanel;
+    private RankingPanel rankingPanel;
+    private MatchPresentationPanel matchPresentationPanel;
+
     private Tournament tournament;
     private boolean tournamentMode = true;
 
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    private RankingPanel rankingPanel;
-
 
     public Component createComponents() {
         cardPanel = new JPanel();
@@ -37,9 +41,11 @@ public class ConnectFourGame {
         cardPanel.setLayout(cardLayout);
 
         rankingPanel = new RankingPanel(this);
+        matchPresentationPanel = new MatchPresentationPanel();
 
         cardPanel.add(getGamePanel(), GAME_CARD_NAME);
         cardPanel.add(rankingPanel, SCORES_CARD_NAME);
+        cardPanel.add(matchPresentationPanel, MATCH_PRES_CARD_NAME);
 
         return cardPanel;
     }
@@ -99,7 +105,7 @@ public class ConnectFourGame {
         }
     }
 
-    public void start() {
+    public void prepareMatch() {
         if (tournamentMode) {
             if (!tournament.isRunning()) {
                 tournament.start();
@@ -113,6 +119,23 @@ public class ConnectFourGame {
         playerPanel1.updateCounterColor(match.getCounterColorPlayer1());
         playerPanel2.updateCounterColor(match.getCounterColorPlayer2());
         borderPanel.resetBoard();
+        matchPresentationPanel.setPlayersForNextMatch(playerLoaders.get(match.getPlayer1().getName()), playerLoaders.get(match.getPlayer2().getName()));
+
+        showCard(MATCH_PRES_CARD_NAME);
+        //TODO constant ?
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startMatch();
+                backToGame();
+            }
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public void startMatch() {
         if (!(match.getNextPlayer() instanceof HumanPlayer)) {
             wakeUpAutoPlayersThread();
         }
@@ -127,10 +150,7 @@ public class ConnectFourGame {
 
             if (move.isWinningMove() && tournamentMode) {
                 tournament.setMatchResult(player, match);
-                if (tournament.isRunning()) {
-                    //start();
-                } else {
-                    //TODO show scores
+                if (!tournament.isRunning()) {
                     rankingPanel.setClassement(tournament.getScores());
                     showCard(SCORES_CARD_NAME);
                 }
@@ -172,10 +192,6 @@ public class ConnectFourGame {
 
     public boolean isTournamentMode() {
         return tournamentMode;
-    }
-
-    public void displayInfo(String message) {
-        //TODO global msg ?
     }
 
     public void backToGame() {
