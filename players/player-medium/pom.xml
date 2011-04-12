@@ -12,6 +12,12 @@
 
     <artifactId>player-medium</artifactId>
 
+    <properties>
+        <ftp-url>127.0.0.1</ftp-url>
+        <ftp-username>xke-guest</ftp-username>
+        <ftp-password>password</ftp-password>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.xebia.xke.algo.minimax</groupId>
@@ -86,6 +92,41 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <ftp server="${ftp-url}" userid="${ftp-username}" password="${ftp-password}" passive="yes">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="${project.artifactId}-${project.version}.jar"/>
+                                    </fileset>
+                                </ftp>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>ant</groupId>
+                        <artifactId>ant-commons-net</artifactId>
+                        <version>1.6.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>commons-net</groupId>
+                        <artifactId>commons-net</artifactId>
+                        <version>1.4.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
