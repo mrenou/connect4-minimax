@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>player-easy</artifactId>
+    <artifactId>player-hard</artifactId>
 
     <properties>
         <ftp-url>127.0.0.1</ftp-url>
@@ -76,7 +76,7 @@
                 </executions>
             </plugin>
 
-            <plugin>
+           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>

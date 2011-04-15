@@ -34,11 +34,11 @@ public class StateConnectFourV1Test {
     }
 
     @Test
-    public void when_vertical_line_of_4_red_should_return_9999() {
+    public void when_vertical_line_of_4_red_should_return_999999999() {
         Board board = BoardFactory.createBoard("/RRRR");
         StateConnectFourV1 minMaxMedium = new StateConnectFourV1(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
 
-        assertThat(minMaxMedium.getScore()).isEqualTo(9999);
+        assertThat(minMaxMedium.getScore()).isEqualTo(999999999);
     }
 
     @Test
@@ -66,11 +66,11 @@ public class StateConnectFourV1Test {
     }
 
     @Test
-    public void when_horizontal_line_of_4_red_should_return_9999() {
+    public void when_horizontal_line_of_4_red_should_return_999999999() {
         Board board = BoardFactory.createBoard("/R/R/R/R");
         StateConnectFourV1 minMaxMedium = new StateConnectFourV1(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
 
-        assertThat(minMaxMedium.getScore()).isEqualTo(9999);
+        assertThat(minMaxMedium.getScore()).isEqualTo(999999999);
     }
 
     @Test
@@ -100,11 +100,11 @@ public class StateConnectFourV1Test {
     }
 
     @Test
-    public void when_ascending_diag_line_of_4_red_should_return_9999() {
+    public void when_ascending_diag_line_of_4_red_should_return_999999999() {
         Board board = BoardFactory.createBoard("/R/YR/RYR/YRRR");
         StateConnectFourV1 minMaxMedium = new StateConnectFourV1(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
 
-        assertThat(minMaxMedium.getScore()).isEqualTo(9999);
+        assertThat(minMaxMedium.getScore()).isEqualTo(999999999);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class StateConnectFourV1Test {
     }
 
     @Test
-    public void when_descending_diag_line_of_4_red_should_return_9999() {
+    public void when_descending_diag_line_of_4_red_should_return_999999999() {
         /**
          *r
          *rr
@@ -145,7 +145,7 @@ public class StateConnectFourV1Test {
         Board board = BoardFactory.createBoard("/RYRR/YRR/RR/R");
         StateConnectFourV1 minMaxMedium = new StateConnectFourV1(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
 
-        assertThat(minMaxMedium.getScore()).isEqualTo(9999);
+        assertThat(minMaxMedium.getScore()).isEqualTo(999999999);
     }
 
     @Test

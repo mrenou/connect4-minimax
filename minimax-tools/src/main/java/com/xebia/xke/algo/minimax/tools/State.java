@@ -8,5 +8,5 @@ public abstract class State {
 
     public abstract <T extends State>Iterable<T> nextStatesIterator();
 
-    abstract boolean isFinalState(int depth);
+    abstract protected boolean isFinalState(int depth);
 }

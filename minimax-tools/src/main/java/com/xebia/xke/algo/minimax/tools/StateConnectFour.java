@@ -77,7 +77,7 @@ public abstract class StateConnectFour extends State {
     protected abstract StateConnectFour createNextState(Board boardCloned, CounterColor counterColorTested, CounterColor counterColorToPlay, int columnIndexPlayed, int maxDepth);
 
     @Override
-    boolean isFinalState(int depth) {
+    protected boolean isFinalState(int depth) {
         return depth == maxDepth || board.getWinnerCounterColor() != null || board.isFull();
     }
 
@@ -85,5 +85,8 @@ public abstract class StateConnectFour extends State {
         return columnIndexPlayed;
     }
 
-
+    @Override
+    public String toString() {
+        return board.toString();
+    }
 }

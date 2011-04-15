@@ -1,4 +1,4 @@
-package com.xebia.xke.algo.minimax.player.medium;
+package com.xebia.xke.algo.minimax.player.hard;
 
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.CounterColor;
@@ -253,10 +253,6 @@ public class StateConnectFourV4 extends StateConnectFour {
     }
 
     int getVerticalScore() {
-        long redValue = 1L;
-
-  
-
         int score = 0;
 
         for (int columnIndex = 0; columnIndex < board.getNbColumns(); columnIndex++) {
@@ -300,9 +296,11 @@ public class StateConnectFourV4 extends StateConnectFour {
 
     @Override
     protected int getScore() {
-        Integer precalculatedScore = _8pos.get(getBoardAsPlainString());
-        if (precalculatedScore != null) {
-            return precalculatedScore;
+        if (board.getNumberOfCounters() == 8) {
+            Integer precalculatedScore = _8pos.get(getBoardAsPlainString());
+            if (precalculatedScore != null) {
+                return precalculatedScore;
+            }
         }
         if (board.getWinnerCounterColor() != null) {
             if (counterColorTested.equals(board.getWinnerCounterColor())) {
@@ -326,10 +324,10 @@ public class StateConnectFourV4 extends StateConnectFour {
                     b.append("b");
                 }
                 else if (board.getCounterColor(columnIndex, verticalIndex).equals(counterColorTested)) {
-                    b.append("x");
+                    b.append("o");
                 }
                 else if (board.getCounterColor(columnIndex, verticalIndex).equals(counterColorTested.getOtherCounterColor())) {
-                    b.append("o");
+                    b.append("x");
                 }
             }
         }
@@ -363,5 +361,13 @@ public class StateConnectFourV4 extends StateConnectFour {
     @Override
     protected StateConnectFour createNextState(Board boardCloned, CounterColor counterColorTested, CounterColor counterColorToPlay, int columnIndexPlayed, int maxDepth) {
         return new StateConnectFourV4(boardCloned, counterColorTested, counterColorToPlay, columnIndexPlayed, maxDepth);
+    }
+
+    @Override
+    protected boolean isFinalState(int depth) {
+        if (board.getNumberOfCounters() == 8) {
+            return true;
+        }
+        return super.isFinalState(depth);
     }
 }

@@ -45,7 +45,7 @@ public class AlphaBetaTest {
         }
 
         @Override
-        boolean isFinalState(int depth) {
+        protected boolean isFinalState(int depth) {
             return isFinalState || depth == maxDepth;
         }
 

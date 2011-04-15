@@ -1,4 +1,4 @@
-package com.xebia.xke.algo.minimax.player.medium;
+package com.xebia.xke.algo.minimax.player.hard;
 
 import com.xebia.xke.algo.minimax.connect4.Board;
 import com.xebia.xke.algo.minimax.connect4.BoardFactory;
@@ -8,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 @Ignore
 public class StateConnectFourV4Test {
 
@@ -67,7 +68,7 @@ public class StateConnectFourV4Test {
         EvalBoardTester evalBoardTester = new EvalBoardTester() {
             @Override
             protected int computeScore(Board board) {
-                StateConnectFourV3 stateConnectFourV3 = new StateConnectFourV3(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
+                StateConnectFourV4 stateConnectFourV3 = new StateConnectFourV4(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
                 return stateConnectFourV3.getVerticalScore();
 
             }
@@ -95,7 +96,7 @@ public class StateConnectFourV4Test {
         EvalBoardTester evalBoardTester = new EvalBoardTester() {
             @Override
             protected int computeScore(Board board) {
-                StateConnectFourV3 stateConnectFourV3 = new StateConnectFourV3(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
+                StateConnectFourV4 stateConnectFourV3 = new StateConnectFourV4(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
                 return stateConnectFourV3.getDiagonalAscendingScore();
 
             }
@@ -144,7 +145,7 @@ public class StateConnectFourV4Test {
         EvalBoardTester evalBoardTester = new EvalBoardTester() {
             @Override
             protected int computeScore(Board board) {
-                StateConnectFourV3 stateConnectFourV3 = new StateConnectFourV3(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
+                StateConnectFourV4 stateConnectFourV3 = new StateConnectFourV4(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
                 return stateConnectFourV3.getDiagonalDescendingScore();
 
             }
@@ -193,7 +194,7 @@ public class StateConnectFourV4Test {
         EvalBoardTester evalBoardTester = new EvalBoardTester() {
             @Override
             protected int computeScore(Board board) {
-                StateConnectFourV3 stateConnectFourV3 = new StateConnectFourV3(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
+                StateConnectFourV4 stateConnectFourV3 = new StateConnectFourV4(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
                 return stateConnectFourV3.getScore();
 
             }
@@ -241,34 +242,34 @@ public class StateConnectFourV4Test {
         EvalBoardTester evalBoardTester = new EvalBoardTester() {
             @Override
             protected int computeScore(Board board) {
-                StateConnectFourV3 stateConnectFourV3 = new StateConnectFourV3(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
+                StateConnectFourV4 stateConnectFourV3 = new StateConnectFourV4(board, CounterColor.RED, CounterColor.YELLOW, 1, 3);
                 return stateConnectFourV3.getScore();
 
             }
         };
 
 
-        evalBoardTester.board(BoardFactory.createBoard("R/R/R/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("///R/R/R/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("//R/R/R/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/Y/R/R/R/R/Y")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("R/R/R/R")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("///R/R/R/R")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("//R/R/R/R")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/Y/R/R/R/R/Y")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
 
-        evalBoardTester.board(BoardFactory.createBoard("RRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("//////RRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/RRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/YRRRRY")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("RRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("//////RRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/RRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/YRRRRY")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
 
-        evalBoardTester.board(BoardFactory.createBoard("R/RR/RRR/RRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("///RR/RRR/RRRR/RRRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("//RR/RRR/RRRR/RRRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("///R/RR/RRR/RRRR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/Y/RR/RRR/YRRR/YYRRR/RRRYYY")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("R/RR/RRR/RRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("///RR/RRR/RRRR/RRRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("//RR/RRR/RRRR/RRRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("///R/RR/RRR/RRRR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/Y/RR/RRR/YRRR/YYRRR/RRRYYY")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
 
-        evalBoardTester.board(BoardFactory.createBoard("RRRR/RRR/RR/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("RRRRR/RRRR/RRR/RR///")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("//RRRRR/RRRR/RRR/RR")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("///RRRR/RRR/RR/R")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
-        evalBoardTester.board(BoardFactory.createBoard("/YYYYYY/RRRRR/RRRR/RRR/RR/Y")).shouldHaveScore(StateConnectFourV3.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("RRRR/RRR/RR/R")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("RRRRR/RRRR/RRR/RR///")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("//RRRRR/RRRR/RRR/RR")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("///RRRR/RRR/RR/R")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
+        evalBoardTester.board(BoardFactory.createBoard("/YYYYYY/RRRRR/RRRR/RRR/RR/Y")).shouldHaveScore(StateConnectFourV4.BEST_SCORE);
 
         evalBoardTester.board(BoardFactory.createBoard("/RRRR")).shouldHaveScore(StateConnectFour.BEST_SCORE);
         evalBoardTester.board(BoardFactory.createBoard("/R/R/R/R")).shouldHaveScore(StateConnectFour.BEST_SCORE);
@@ -290,7 +291,7 @@ public class StateConnectFourV4Test {
 
             }
         };
-        
+
         evalBoardTester.board(BoardFactory.createBoard("//RY/RYRYRY")).shouldHaveScore(0);
 
     }

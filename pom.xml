@@ -13,9 +13,10 @@
         <module>players/player-idiot</module>
         <module>players/player-easy</module>
         <module>players/player-medium</module>
+        <module>players/player-timeout</module>
+        <module>players/player-hard</module>
         <module>players-test</module>
         <module>ui</module>
-        <module>players/player-timeout</module>
     </modules>
 
     <name>Algo Minimax</name>

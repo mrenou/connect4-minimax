@@ -1,6 +1,10 @@
 package com.xebia.xke.algo.minimax.tools;
 
+import org.apache.log4j.Logger;
+
 public class AlphaBeta {
+
+    private final static Logger logger = Logger.getLogger(AlphaBeta.class);
 
     private int nbStatesExploredLastTurn;
 
@@ -31,7 +35,15 @@ public class AlphaBeta {
         nbStatesExplored ++;
         nbStatesExploredLastTurn++;
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("Max turn");
+            logger.debug("State : " + state.toString());
+        }
+
         if (state.isFinalState(depth)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("State score : " + state.getScore());
+            }
             return state.getScore();
         }
         int maxScore = -State.BEST_SCORE;
@@ -52,7 +64,15 @@ public class AlphaBeta {
         nbStatesExplored++;
         nbStatesExploredLastTurn++;
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("Min turn");
+            logger.debug("State : " + state.toString());
+        }
+
         if (state.isFinalState(depth)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("State score : " + state.getScore());
+            }
             return state.getScore();
         }
         int minScore = State.BEST_SCORE;

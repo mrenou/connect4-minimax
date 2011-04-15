@@ -30,7 +30,7 @@ public class MinimaxTest {
         }
 
         @Override
-        boolean isFinalState(int depth) {
+        protected boolean isFinalState(int depth) {
             return isFinalState || depth == 1;
         }
     }

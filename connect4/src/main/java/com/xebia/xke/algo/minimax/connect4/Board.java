@@ -212,4 +212,11 @@ public class Board {
         }
         return boardCloned;
     }
+
+    public long getBinaryBoard(CounterColor counterColor) {
+        if (CounterColor.RED.equals(counterColor)) {
+            return colorBoards[0];
+        }
+        return colorBoards[1];
+    }
 }
