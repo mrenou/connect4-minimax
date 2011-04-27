@@ -14,7 +14,6 @@ public class ConnectFour {
     }
 
     public Move putCounter(int columnIndex) {
-        //TODO stop if end game ?
         int verticalIndex = board.putCounter(columnIndex, currentCounterColor);
         if (verticalIndex != -1) {
             currentCounterColor = currentCounterColor.getOtherCounterColor();

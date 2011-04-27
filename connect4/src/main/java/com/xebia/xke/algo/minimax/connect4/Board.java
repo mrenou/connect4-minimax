@@ -74,21 +74,14 @@ public class Board {
     }
 
     public int putCounter(int columnIndex, CounterColor counterColor) {
-        //TODO need ?
-        /*if (winnerCounterColor != null) {
-            throw new IllegalStateException("The game is ended.");
-        }*/
-
         if (columnIndex < 0 || columnIndex >= NB_COLUMNS || columnIsfull(columnIndex)) {
             return -1;
         }
         if (CounterColor.RED.equals(counterColor)) {
-            //TODO inclusive or ?
             colorBoards[0] ^= 1L << columnsMaxValueUsed[columnIndex]++;
         } else {
             colorBoards[1] ^= 1L << columnsMaxValueUsed[columnIndex]++;
         }
-        //TODO test vertical index
         int verticalIndex = (columnsMaxValueUsed[columnIndex] - ((COLUMN_SIZE + 1) * columnIndex)) - 1;
         //TODO record move ?
         if (checkWinningMove(colorBoards[0])) {
