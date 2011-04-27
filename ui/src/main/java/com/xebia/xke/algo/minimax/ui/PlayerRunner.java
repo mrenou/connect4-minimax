@@ -41,7 +41,7 @@ public class PlayerRunner implements Runnable {
 
                 try {
                     //TODO constant ?
-                    Thread.sleep(1);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
 
                 }

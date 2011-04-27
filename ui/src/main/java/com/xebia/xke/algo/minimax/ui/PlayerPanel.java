@@ -16,7 +16,7 @@ public class PlayerPanel extends JPanel {
     private JLabel gravatarLabel;
     private JLabel playerStatusLabel;
     private CounterColor counterColor;
-    private static final int WIDTH_PANEL = 100;
+    private static final int WIDTH_PANEL = 150;
 
     public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
@@ -99,7 +99,7 @@ public class PlayerPanel extends JPanel {
 
     public void loadGravatar() {
         PlayerLoader playerLoader = (PlayerLoader) playerList.getSelectedItem();
-        gravatarLabel.setIcon(ImageRessources.getInstance().getGravatar(playerLoader.getGravatarHash(), 200));
+        gravatarLabel.setIcon(ImageRessources.getInstance().getGravatar(playerLoader.getGravatarHash(), WIDTH_PANEL));
     }
 
     public PlayerLoader getSelectedPlayerLoader() {

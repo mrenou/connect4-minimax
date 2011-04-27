@@ -62,8 +62,8 @@ public class ImageRessources {
 
             URL url = new URL(urlString);
             //TODO
-            return getDefaultGravatar();
-            //return new ImageIcon(url);
+            //return getDefaultGravatar();
+            return new ImageIcon(url);
         } catch (MalformedURLException e) {
             return getDefaultGravatar();
         } catch (IOException e) {
