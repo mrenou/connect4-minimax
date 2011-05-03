@@ -38,18 +38,8 @@ public class RankingPanel extends JPanel {
     }
 
     public void setClassement(List<PlayerScored> playerScoredList) {
-
-        // TEMP
-        playerScoredList = new ArrayList<PlayerScored>();
-        for (int i = 0; i < 10; i++) {
-            for (PlayerScored playerScored : connectFourGame.getTournament().getScores()) {
-                playerScoredList.add(playerScored);
-            }
-        }
-        Iterator<PlayerScored> playerScoredIt = playerScoredList.iterator();
-
         Integer positon = 1;
-        //Iterator<PlayerScored> playerScoredIt = connectFourGame.getTournament().getScores().iterator();
+        Iterator<PlayerScored> playerScoredIt = connectFourGame.getTournament().getScores().iterator();
 
         //first scores
         Box firstScoresBox = Box.createHorizontalBox();

@@ -46,15 +46,20 @@ public class Match {
         if (timeout > 0) {
             final int[] columnPlayed = new int[1];
             final boolean[] played = new boolean[1];
+            final boolean[] error = new boolean[1];
 
             final Thread currentThread = Thread.currentThread();
 
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    columnPlayed[0] = currentPlayer.play(getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
-                    synchronized (played) {
-                        played[0] = true;
+                    try {
+                        columnPlayed[0] = currentPlayer.play(getCurrentCounterColor(), (Board) connectFour.getBoard().clone());
+                        synchronized (played) {
+                            played[0] = true;
+                        }
+                    } catch (Throwable e) {
+                        error[0] = true;
                     }
                     currentThread.interrupt();
                 }
@@ -69,9 +74,13 @@ public class Match {
             // check if the turn is played
             synchronized (played) {
                 if (!played[0]) {
-                    t.stop();
-                    timeout();
-                    return Move.createTimeoutMove(getCurrentCounterColor());
+                    winner = players.get(connectFour.getCurrentCounterColor().getOtherCounterColor());
+                    if (error[0]) {
+                        return Move.createMove(getCurrentCounterColor(), -1, -1, false);
+                    } else {
+                        t.stop();
+                        return Move.createTimeoutMove(getCurrentCounterColor());
+                    }
                 }
             }
 
@@ -142,10 +151,6 @@ public class Match {
 
     public Player getPlayer2() {
         return players.get(counterColorPlayer2);
-    }
-
-    private void timeout() {
-        winner = players.get(connectFour.getCurrentCounterColor().getOtherCounterColor());
     }
 
     public Player getWinner() {
