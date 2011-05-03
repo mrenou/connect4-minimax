@@ -110,13 +110,9 @@ public class Match {
             Move move = playNextTurn();
 
             if (move.isWinningMove()) {
-                System.out.println(players.get(CounterColor.YELLOW).toString() + " " + players.get(CounterColor.YELLOW).getStats());
-                System.out.println(players.get(CounterColor.RED).toString() + " " + players.get(CounterColor.RED).getStats());
                 return players.get(move.getCounterColor());
             }
         }
-        System.out.println(players.get(CounterColor.YELLOW).toString() + " " + players.get(CounterColor.YELLOW).getStats());
-        System.out.println(players.get(CounterColor.RED).toString() + " " + players.get(CounterColor.RED).getStats());
         return null;
     }
 

@@ -43,8 +43,6 @@ public class TournamentTest {
         }
         tournament.start();
         tournament.playAllMatches();
-
-        System.out.println(tournament.getStringtScores());
     }
 
     @Test
