@@ -106,10 +106,11 @@ public class PlayerPanel extends JPanel {
         return (PlayerLoader) playerList.getSelectedItem();
     }
 
-    public void updateCounterColor(CounterColor counterColor) {
+    public void reset(CounterColor counterColor) {
         ImageIcon icon = ImageRessources.getInstance().getImageIconByCounterColor(counterColor);
         this.counterColor = counterColor;
         playerCounterLabel.setIcon(icon);
+        clearStatus();
     }
 
     public void updateSelectedPlayerLoader(PlayerLoader playerLoader) {
@@ -132,6 +133,14 @@ public class PlayerPanel extends JPanel {
         playerStatusLabel.setText("Looser !");
     }
 
+    private void statusIsDraw() {
+        playerStatusLabel.setText("Draw !");
+    }
+
+    private void statusIsInvalid() {
+        playerStatusLabel.setText("Invalid !");
+    }
+
     private void clearStatus() {
         playerStatusLabel.setText("");
     }
@@ -144,7 +153,17 @@ public class PlayerPanel extends JPanel {
                 statusIsLooser();
             }
         } else if (move.isTimeoutMove()) {
-            statusIsTitmeout();
+            if (move.getCounterColor().equals(counterColor)) {
+                statusIsTitmeout();
+            } else {
+                statusIsWinner();
+            }
+        } else if (!move.isValidMove()) {
+            if (move.getCounterColor().equals(counterColor)) {
+                statusIsInvalid();
+            } else {
+                statusIsWinner();
+            }
         } else if (move.isValidMove()) {
             if (move.getCounterColor().equals(counterColor)) {
                 clearStatus();

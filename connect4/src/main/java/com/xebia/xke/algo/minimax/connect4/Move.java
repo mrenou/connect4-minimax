@@ -53,8 +53,4 @@ public class Move {
     public boolean isValidMove() {
         return verticalIndex != -1;
     }
-
-    public boolean isEndingMove() {
-        return isWinningMove() || isTimeoutMove() || !isValidMove();
-    }
 }

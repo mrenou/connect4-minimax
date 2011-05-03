@@ -143,7 +143,7 @@ public class BorderPanel extends JPanel {
                 defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
             }
         }
-        if (move.isEndingMove()) {
+        if (connectFourGame.getMatch().isEndMatch()) {
             started = false;
         }
     }

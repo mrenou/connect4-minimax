@@ -14,11 +14,12 @@ public class ConnectFour {
     }
 
     public Move putCounter(int columnIndex) {
+        CounterColor counterColor = currentCounterColor;
         int verticalIndex = board.putCounter(columnIndex, currentCounterColor);
         if (verticalIndex != -1) {
             currentCounterColor = currentCounterColor.getOtherCounterColor();
         }
-        return Move.createMove(currentCounterColor.getOtherCounterColor(), columnIndex, verticalIndex, board.getWinnerCounterColor() != null);
+        return Move.createMove(counterColor, columnIndex, verticalIndex, board.getWinnerCounterColor() != null);
     }
 
     public boolean isEndGame() {

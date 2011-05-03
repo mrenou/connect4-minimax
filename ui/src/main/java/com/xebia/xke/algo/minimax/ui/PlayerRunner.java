@@ -41,12 +41,12 @@ public class PlayerRunner implements Runnable {
 
                 try {
                     //TODO constant ?
-                    Thread.sleep(500);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
 
                 }
 
-                if (connectFourGame.getMatch().getNextPlayer() instanceof HumanPlayer) {
+                if ((connectFourGame.getMatch().getNextPlayer() instanceof HumanPlayer) && !connectFourGame.getMatch().isEndMatch()) {
                    sleepAutoPlayersThread(0);
                 }
             }

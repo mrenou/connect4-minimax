@@ -17,6 +17,7 @@
         <module>players/player-hard</module>
         <module>players-test</module>
         <module>ui</module>
+        <module>players/player-invalid</module>
     </modules>
 
     <name>Algo Minimax</name>

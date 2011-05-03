@@ -116,8 +116,8 @@ public class ConnectFourGame {
         } else {
             match = new Match(playerPanel1.getSelectedPlayerLoader().loadPlayer(), playerPanel2.getSelectedPlayerLoader().loadPlayer(), 5000);
         }
-        playerPanel1.updateCounterColor(match.getCounterColorPlayer1());
-        playerPanel2.updateCounterColor(match.getCounterColorPlayer2());
+        playerPanel1.reset(match.getCounterColorPlayer1());
+        playerPanel2.reset(match.getCounterColorPlayer2());
         borderPanel.resetBoard();
         matchPresentationPanel.setPlayersForNextMatch(playerLoaders.get(match.getPlayer1().getName()), playerLoaders.get(match.getPlayer2().getName()));
 
@@ -148,8 +148,8 @@ public class ConnectFourGame {
             Move move = match.playNextTurn();
             setMove(move);
 
-            if (move.isWinningMove() && tournamentMode) {
-                tournament.setMatchResult(player, match);
+            if (match.isEndMatch() && tournamentMode) {
+                tournament.setMatchResult(match.getWinner(), match);
                 if (!tournament.isRunning()) {
                     rankingPanel.setClassement(tournament.getScores());
                     showCard(SCORES_CARD_NAME);

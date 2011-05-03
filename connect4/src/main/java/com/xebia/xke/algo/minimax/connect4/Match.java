@@ -69,8 +69,8 @@ public class Match {
             // check if the turn is played
             synchronized (played) {
                 if (!played[0]) {
-                    timeout();
                     t.stop();
+                    timeout();
                     return Move.createTimeoutMove(getCurrentCounterColor());
                 }
             }
@@ -90,6 +90,9 @@ public class Match {
         // TODO invalid move ?
         if (move.isWinningMove()) {
             winner =  players.get(move.getCounterColor());
+        }
+        if (!move.isValidMove() || move.isTimeoutMove()) {
+            winner =  players.get(move.getCounterColor().getOtherCounterColor());
         }
         return move;
     }
@@ -143,5 +146,9 @@ public class Match {
 
     private void timeout() {
         winner = players.get(connectFour.getCurrentCounterColor().getOtherCounterColor());
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 }
