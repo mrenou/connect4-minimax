@@ -78,21 +78,21 @@ public class BorderPanel extends JPanel {
 
         jtable.setModel(defaultTableModel);
 
-        jtable.setRowHeight(100);
-        jtable.getColumnModel().getColumn(0).setMinWidth(100);
-        jtable.getColumnModel().getColumn(0).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(1).setMinWidth(100);
-        jtable.getColumnModel().getColumn(1).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(2).setMinWidth(100);
-        jtable.getColumnModel().getColumn(2).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(3).setMinWidth(100);
-        jtable.getColumnModel().getColumn(3).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(4).setMinWidth(100);
-        jtable.getColumnModel().getColumn(4).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(5).setMinWidth(100);
-        jtable.getColumnModel().getColumn(5).setMaxWidth(100);
-        jtable.getColumnModel().getColumn(6).setMinWidth(100);
-        jtable.getColumnModel().getColumn(6).setMaxWidth(100);
+        jtable.setRowHeight(80);
+        jtable.getColumnModel().getColumn(0).setMinWidth(80);
+        jtable.getColumnModel().getColumn(0).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(1).setMinWidth(80);
+        jtable.getColumnModel().getColumn(1).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(2).setMinWidth(80);
+        jtable.getColumnModel().getColumn(2).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(3).setMinWidth(80);
+        jtable.getColumnModel().getColumn(3).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(4).setMinWidth(80);
+        jtable.getColumnModel().getColumn(4).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(5).setMinWidth(80);
+        jtable.getColumnModel().getColumn(5).setMaxWidth(80);
+        jtable.getColumnModel().getColumn(6).setMinWidth(80);
+        jtable.getColumnModel().getColumn(6).setMaxWidth(80);
 
         resetBoard();
 

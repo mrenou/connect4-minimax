@@ -16,7 +16,7 @@ public class PlayerPanel extends JPanel {
     private JLabel gravatarLabel;
     private JLabel playerStatusLabel;
     private CounterColor counterColor;
-    private static final int WIDTH_PANEL = 150;
+    private static final int WIDTH_PANEL = 225;
 
     public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
@@ -74,7 +74,7 @@ public class PlayerPanel extends JPanel {
         setDefaultAlignment(gravatarLabel);
 
         playerStatusLabel = new JLabel();
-        playerStatusLabel.setFont(new Font("Verdana", Font.BOLD, 26));
+        playerStatusLabel.setFont(new Font("Verdana", Font.BOLD, 30));
         setDefaultAlignment(playerStatusLabel);
         setAllComponentSizes(playerStatusLabel, WIDTH_PANEL, 30);
 
