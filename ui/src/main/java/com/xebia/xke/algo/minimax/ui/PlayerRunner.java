@@ -27,7 +27,7 @@ public class PlayerRunner implements Runnable {
             if (connectFourGame.getTournament().isRunning()) {
                 try {
                     //TODO constant ?
-                    Thread.sleep(1500);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
 
                 }
@@ -41,7 +41,7 @@ public class PlayerRunner implements Runnable {
 
                 try {
                     //TODO constant ?
-                    Thread.sleep(1);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
 
                 }

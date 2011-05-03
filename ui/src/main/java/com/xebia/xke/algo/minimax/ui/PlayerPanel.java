@@ -41,6 +41,7 @@ public class PlayerPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         playerList = new JComboBox(playerLoaders);
+        playerList.setFont(new Font("Verdana", Font.BOLD, 26));
         playerList.setRenderer(new ListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList jList, Object o, int i, boolean b, boolean b1) {
@@ -73,8 +74,9 @@ public class PlayerPanel extends JPanel {
         setDefaultAlignment(gravatarLabel);
 
         playerStatusLabel = new JLabel();
+        playerStatusLabel.setFont(new Font("Verdana", Font.BOLD, 26));
         setDefaultAlignment(playerStatusLabel);
-        setAllComponentSizes(playerStatusLabel, WIDTH_PANEL, 20);
+        setAllComponentSizes(playerStatusLabel, WIDTH_PANEL, 30);
 
         this.add(playerLabel);
         this.add(playerList);
