@@ -18,11 +18,6 @@ public class PlayerIdiot extends SimplePlayer {
     }
 
     @Override
-    public String getStats() {
-        return null;
-    }
-
-    @Override
     public String getName() {
         return "Idiot";
     }

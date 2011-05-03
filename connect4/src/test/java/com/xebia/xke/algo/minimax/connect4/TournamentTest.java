@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -23,10 +22,6 @@ public class TournamentTest {
             return 0;
         }
 
-        @Override
-        public String getStats() {
-            return null;
-        }
     }
 
     @Test

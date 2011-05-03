@@ -19,8 +19,4 @@ public class PlayerMinimaxWithStateV1 extends SimplePlayer {
         return bestNextState.getColumnIndexPlayed();
     }
 
-    @Override
-    public String getStats() {
-        return minimax.getStats();
-    }
 }

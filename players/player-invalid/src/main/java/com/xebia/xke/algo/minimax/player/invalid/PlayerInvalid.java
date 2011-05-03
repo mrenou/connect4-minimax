@@ -12,8 +12,4 @@ public class PlayerInvalid extends SimplePlayer {
         return 42;
     }
 
-    @Override
-    public String getStats() {
-        return null;
-    }
 }

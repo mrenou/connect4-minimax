@@ -42,8 +42,4 @@ public class PlayerTimeout extends SimplePlayer {
         return 0;
     }
 
-    @Override
-    public String getStats() {
-        return null;
-    }
 }

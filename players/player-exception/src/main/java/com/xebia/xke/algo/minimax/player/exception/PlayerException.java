@@ -12,8 +12,4 @@ public class PlayerException extends SimplePlayer {
         throw new NullPointerException("BOOM");
     }
 
-    @Override
-    public String getStats() {
-        return null;
-    }
 }

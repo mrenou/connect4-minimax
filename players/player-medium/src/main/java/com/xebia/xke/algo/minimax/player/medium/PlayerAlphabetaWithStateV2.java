@@ -19,8 +19,4 @@ public class PlayerAlphabetaWithStateV2 extends SimplePlayer {
         return bestNextState.getColumnIndexPlayed();
     }
 
-    @Override
-    public String getStats() {
-        return alphaBeta.getStats();
-    }
 }
