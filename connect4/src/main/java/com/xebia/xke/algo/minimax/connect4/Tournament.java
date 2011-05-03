@@ -16,6 +16,16 @@ public class Tournament {
     @VisibleForTesting
     boolean running = false;
 
+    private int timeout = 0;
+
+    public Tournament() {
+
+    }
+
+    public Tournament(int timeout) {
+        this.timeout = timeout;
+    }
+
     public void addPlayerLoader(PlayerLoader playerLoader) {
         checkIfNotRunning();
         PlayerScored playerScored = new PlayerScored(playerLoader);
@@ -30,7 +40,7 @@ public class Tournament {
         while (!tmpPlayers.isEmpty()) {
             PlayerScored player1 = tmpPlayers.poll();
             for (PlayerScored player2 : tmpPlayers) {
-                matches.add(new Match(player1.getPlayerLoader().loadPlayer(), player2.getPlayerLoader().loadPlayer(), 5000));
+                matches.add(new Match(player1.getPlayerLoader().loadPlayer(), player2.getPlayerLoader().loadPlayer(), timeout));
             }
         }
         

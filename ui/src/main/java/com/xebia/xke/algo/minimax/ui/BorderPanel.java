@@ -71,13 +71,9 @@ public class BorderPanel extends JPanel {
     private JTable buildJTable(DefaultTableModel defaultTableModel) {
         jtable = new JTable();
 
-        //TODO check
         jtable.setShowGrid(true);
         jtable.setSize(700, 700);
-
-
         jtable.setModel(defaultTableModel);
-
         jtable.setRowHeight(80);
         jtable.getColumnModel().getColumn(0).setMinWidth(80);
         jtable.getColumnModel().getColumn(0).setMaxWidth(80);
@@ -96,9 +92,7 @@ public class BorderPanel extends JPanel {
 
         resetBoard();
 
-        //TODO check
         jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         jtable.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -135,13 +129,8 @@ public class BorderPanel extends JPanel {
     }
 
     public void setMove(Move move) {
-        if (!move.isTimeoutMove()) {
-            if (!move.isValidMove()) {
-                //TODO show error dialog ?
-                System.out.println("Not valid");
-            } else {
-                defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
-            }
+        if (move.isValidMove()) {
+            defaultTableModel.setValueAt(ImageRessources.getInstance().getImageIconByCounterColor(move.getCounterColor()), 5 - move.getVerticalIndex(), move.getColumnIndex());
         }
         if (connectFourGame.getMatch().isEndMatch()) {
             started = false;

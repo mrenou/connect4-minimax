@@ -26,8 +26,7 @@ public class PlayerRunner implements Runnable {
 
             if (connectFourGame.getTournament().isRunning()) {
                 try {
-                    //TODO constant ?
-                    Thread.sleep(3000);
+                    Thread.sleep(ConnectFourGame.END_MATCH_TIME);
                 } catch (InterruptedException e) {
 
                 }
@@ -40,8 +39,7 @@ public class PlayerRunner implements Runnable {
                 connectFourGame.noHumanturn();
 
                 try {
-                    //TODO constant ?
-                    Thread.sleep(500);
+                    Thread.sleep(ConnectFourGame.BETWEEN_TIME);
                 } catch (InterruptedException e) {
 
                 }

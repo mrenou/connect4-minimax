@@ -34,6 +34,11 @@ public class ConnectFourGame {
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
+    private static final int PRES_MATCH_TIME = 3000;
+    public static final int MOVE_TIME = 5000;
+    public static final long END_MATCH_TIME = 3000;
+    public static final long BETWEEN_TIME = 500;
+
     public Component createComponents() {
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -55,9 +60,8 @@ public class ConnectFourGame {
     }
 
     private Component getGamePanel() {
-        //TODO where, when ?
         initPlayers();
-        tournament = new Tournament();
+        tournament = new Tournament(MOVE_TIME);
         tournament.addPlayerLoaders(playerLoaders.values());
 
         borderPanel = new BorderPanel(this);
@@ -96,7 +100,6 @@ public class ConnectFourGame {
         try {
             playerLoaders = playerLoadersLoader.loadAllPlayers();
         } catch (PlayerLoadingException e) {
-            //TODO show error dialog
             throw new RuntimeException("Cannot load players.", e);
         }
         if (!tournamentMode) {
@@ -114,7 +117,7 @@ public class ConnectFourGame {
             playerPanel1.updateSelectedPlayerLoader(playerLoaders.get(match.getPlayer1().getName()));
             playerPanel2.updateSelectedPlayerLoader(playerLoaders.get(match.getPlayer2().getName()));
         } else {
-            match = new Match(playerPanel1.getSelectedPlayerLoader().loadPlayer(), playerPanel2.getSelectedPlayerLoader().loadPlayer(), 5000);
+            match = new Match(playerPanel1.getSelectedPlayerLoader().loadPlayer(), playerPanel2.getSelectedPlayerLoader().loadPlayer(), MOVE_TIME);
         }
         playerPanel1.reset(match.getCounterColorPlayer1());
         playerPanel2.reset(match.getCounterColorPlayer2());
@@ -122,8 +125,7 @@ public class ConnectFourGame {
         matchPresentationPanel.setPlayersForNextMatch(playerLoaders.get(match.getPlayer1().getName()), playerLoaders.get(match.getPlayer2().getName()));
 
         showCard(MATCH_PRES_CARD_NAME);
-        //TODO constant ?
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(PRES_MATCH_TIME, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startMatch();

@@ -47,7 +47,6 @@ public class StateConnectFourV1 extends StateConnectFour {
 
     @Override
     protected int getScore() {
-        //TODO move to abstract ?
         if (board.getWinnerCounterColor() != null) {
             if (counterColorTested.equals(board.getWinnerCounterColor())) {
                 return State.BEST_SCORE;

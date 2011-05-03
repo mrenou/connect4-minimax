@@ -96,7 +96,6 @@ public class Match {
             throw new IllegalStateException("The match is ended.");
         }
         Move move = connectFour.putCounter(columnIndex);
-        // TODO invalid move ?
         if (move.isWinningMove()) {
             winner =  players.get(move.getCounterColor());
         }

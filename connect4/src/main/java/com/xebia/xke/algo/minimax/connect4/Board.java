@@ -83,7 +83,6 @@ public class Board {
             colorBoards[1] ^= 1L << columnsMaxValueUsed[columnIndex]++;
         }
         int verticalIndex = (columnsMaxValueUsed[columnIndex] - ((COLUMN_SIZE + 1) * columnIndex)) - 1;
-        //TODO record move ?
         if (checkWinningMove(colorBoards[0])) {
             winnerCounterColor = CounterColor.RED;
         }

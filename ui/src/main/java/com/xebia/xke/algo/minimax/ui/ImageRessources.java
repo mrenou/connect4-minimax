@@ -61,8 +61,6 @@ public class ImageRessources {
             String urlString = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=" + size;
 
             URL url = new URL(urlString);
-            //TODO
-            //return getDefaultGravatar();
             return new ImageIcon(url);
         } catch (MalformedURLException e) {
             return getDefaultGravatar();
