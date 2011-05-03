@@ -1,0 +1,3 @@
+* rename the package 'torename'
+* edit pom.xml, the properties
+* use the command : mvn clean install -Pftp-upload
