@@ -61,8 +61,8 @@ public class ConnectFourGame {
         tournament.addPlayerLoaders(playerLoaders.values());
 
         borderPanel = new BorderPanel(this);
-        playerPanel1 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 1");
-        playerPanel2 = new PlayerPanel(playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 2");
+        playerPanel1 = new PlayerPanel(this, playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 1");
+        playerPanel2 = new PlayerPanel(this, playerLoaders.values().toArray(new PlayerLoader[]{}), "Player 2");
 
         JPanel gamePanel = new JPanel();
 

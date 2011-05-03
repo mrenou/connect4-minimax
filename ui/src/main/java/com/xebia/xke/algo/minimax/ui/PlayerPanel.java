@@ -17,24 +17,29 @@ public class PlayerPanel extends JPanel {
     private JLabel playerStatusLabel;
     private CounterColor counterColor;
     private static final int WIDTH_PANEL = 225;
+    private ConnectFourGame connectFourGame;
 
-    public PlayerPanel(LayoutManager layoutManager, boolean b, PlayerLoader[] players, String playerLabel) {
+    public PlayerPanel(LayoutManager layoutManager, boolean b, ConnectFourGame connectFourGame, PlayerLoader[] players, String playerLabel) {
         super(layoutManager, b);
         init(players, playerLabel);
+        this.connectFourGame = connectFourGame;
     }
 
-    public PlayerPanel(LayoutManager layoutManager, PlayerLoader[] players, String playerLabel) {
+    public PlayerPanel(LayoutManager layoutManager, ConnectFourGame connectFourGame, PlayerLoader[] players, String playerLabel) {
         super(layoutManager);
         init(players, playerLabel);
+        this.connectFourGame = connectFourGame;
     }
 
-    public PlayerPanel(boolean b, PlayerLoader[] players, String playerLabel) {
+    public PlayerPanel(boolean b, ConnectFourGame connectFourGame, PlayerLoader[] players, String playerLabel) {
         super(b);
         init(players, playerLabel);
+        this.connectFourGame = connectFourGame;
     }
 
-    public PlayerPanel(PlayerLoader[] players, String playerLabel) {
+    public PlayerPanel(ConnectFourGame connectFourGame, PlayerLoader[] players, String playerLabel) {
         init(players, playerLabel);
+        this.connectFourGame = connectFourGame;
     }
 
     private void init(PlayerLoader[] playerLoaders, String playerName) {
@@ -166,6 +171,8 @@ public class PlayerPanel extends JPanel {
             } else {
                 statusIsWinner();
             }
+        } else if (connectFourGame.getMatch().isEndMatch()) {
+            statusIsDraw();
         } else if (move.isValidMove()) {
             if (move.getCounterColor().equals(counterColor)) {
                 clearStatus();
