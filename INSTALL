@@ -1,0 +1,2 @@
+# install connect4.jar in local repo
+mvn install:install-file -DgroupId=com.xebia.xke.algo.minimax  -DartifactId=connect4  -Dversion=1.0-SNAPSHOT  -Dfile=connect4-1.0-SNAPSHOT.jar  -Dpackaging=jar -DgeneratePom=true
