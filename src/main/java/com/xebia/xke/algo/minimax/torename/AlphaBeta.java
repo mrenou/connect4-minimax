@@ -11,67 +11,52 @@ public class AlphaBeta {
         int alpha = -State.BEST_SCORE;
         int beta = +State.BEST_SCORE;
 
-        for (T nextState : state.<T>nextStatesIterator()) {
-            int score = getMinScore(nextState, 1, alpha, beta);
-            if (score >= bestScore) {
-                bestScore = score;
-                bestState = nextState;
-            }
-        }
+        //FIXME select the highest score among the states child :
+        //      - increase the depth
+        //      - use max method
+
         return bestState;
     }
 
     @VisibleForTesting
     int getMaxScore(State state, int depth, int alpha, int beta) {
-        if (state.isFinalState(depth)) {
-            return state.getScore();
-        }
+        //FIXME if the state is a final state, return the score of the state
+
         int maxScore = -State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
-            int childScore = getMinScore(childState, depth + 1, alpha, beta);
+        //FIXME - select the highest score among the states child :
+        //      - increase the depth
+        //      - if child score > beta, return the score immediately (prune)
+        //      - update alpha value, the highest score among the states child (same as max score)
+        //      - use max method
 
-            if (childScore > beta) {
-                return childScore;
-            }
-            maxScore = max(maxScore, childScore);
-            alpha = max(alpha, childScore);
-        }
         return maxScore;
     }
 
     @VisibleForTesting
     int getMinScore(State state, int depth, int alpha, int beta) {
-        if (state.isFinalState(depth)) {
-            return state.getScore();
-        }
+        //FIXME if the state is a final state, return the score of the state
+
         int minScore = State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
-            int childScore = getMaxScore(childState, depth + 1, alpha, beta);
+        //FIXME - select the lowest score among the states child :
+        //      - increase the depth
+        //      - if child score < alpha, return the score immediately (prune)
+        //      - update beta value, the lowest score among the states child (same as min score)
+        //      - use max method
 
-            if (childScore < alpha) {
-                return childScore;
-            }
-            minScore = min(minScore, childScore);
-            beta = min(beta, childScore);
-        }
         return minScore;
     }
 
     @VisibleForTesting
     int max(int score1, int score2) {
-        if (score1 > score2) {
-            return score1;
-        }
-        return score2;
+        //FIXME select the highest score
+        return 0;
     }
 
     @VisibleForTesting
     int min(int score1, int score2) {
-        if (score1 < score2) {
-            return score1;
-        }
-        return score2;
+        //FIXME select the lowest score
+        return 0;
     }
 }

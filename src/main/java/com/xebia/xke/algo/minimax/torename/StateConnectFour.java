@@ -36,28 +36,26 @@ public abstract class StateConnectFour extends State {
 
                     @Override
                     public boolean hasNext() {
-                        if (board.isFull()) {
-                            return false;
-                        }
-
-                        while(columnIndex < board.getNbColumns() && board.columnIsfull(columnIndex)) {
-                            columnIndex++;
-                        }
-                        return columnIndex < board.getNbColumns();
+                        //FIXME - return false if the board is full
+                        //      - increment column index on column not full
+                        //      - return false if column index > number of columns
+                        return false;
                     }
 
                     @Override
                     public StateConnectFour next() {
-                        Board boardCloned = (Board) board.clone();
+
+                        Board boardCloned = null; //FIXME - create a new state to create a child (clone)
                         int columnIndexPlayed;
 
                         while(columnIndex < board.getNbColumns() && board.columnIsfull(columnIndex)) {
                             columnIndex++;
                         }
 
-                        if (columnIndex >= boardCloned.getNbColumns() || boardCloned.putCounter(columnIndex, counterColorToPlay) == -1) {
-                            throw new IllegalStateException();
-                        }
+                        //FIXME - check if column index <= number of columns
+                        //      - put a counter on child with selected index and couter color to play.
+                        //      - thorw IllegalStateException if the move id invalid (return -1)
+
                         columnIndexPlayed = columnIndex;
                         columnIndex++;
                         return createNextState(boardCloned, counterColorTested, counterColorToPlay.getOtherCounterColor(), columnIndexPlayed, maxDepth);
@@ -78,7 +76,11 @@ public abstract class StateConnectFour extends State {
 
     @Override
     protected boolean isFinalState(int depth) {
-        return depth == maxDepth || board.getWinnerCounterColor() != null || board.isFull();
+        //FIXME - final state is when max depth is reached
+        //      - final state is when winner exists
+        //      - final state is when equality exists (board is full)
+
+        return false;
     }
 
     public int getColumnIndexPlayed() {

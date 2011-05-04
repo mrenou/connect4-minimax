@@ -24,57 +24,18 @@ public class MyStateConnectFour extends StateConnectFour {
             }
         }
 
-        int myMaxScore = getMaxScore(counterColorTested);
-        int otherMaxScore = getMaxScore(counterColorTested.getOtherCounterColor());
+        int myHighestScore = getHighestLineScore(counterColorTested);
+        int otherHighestScore = getHighestLineScore(counterColorTested.getOtherCounterColor());
 
-        return myMaxScore - otherMaxScore;
+        return myHighestScore - otherHighestScore;
     }
 
-    private int getMaxScore(CounterColor counterColor) {
-        int maxScore = -1;
-        long myBinaryBoard = board.getBinaryBoard(counterColor);
-
-        //test horizontal
-        maxScore = max(maxScore, getMaxLineSize(myBinaryBoard, board.getColumnSize() + 1)) ;
-        //test vertical
-        maxScore = max(maxScore, getMaxLineSize(myBinaryBoard, 1)) ;
-        //test diag /
-        maxScore = max(maxScore, getMaxLineSize(myBinaryBoard, board.getColumnSize() + 2)) ;
-        //test diage \
-        maxScore = max(maxScore, getMaxLineSize(myBinaryBoard, board.getColumnSize()));
-
-        return maxScore;
-    }
-
-    private long shiftAndMergeBoard(long board, int shiftValue) {
-        return board & (board >> shiftValue);
-    }
-
-    int max(int score1, int score2) {
-        if (score1 > score2) {
-            return score1;
-        }
-        return score2;
-    }
-
-    private int getMaxLineSize(long board, int shiftValue) {
-        long firstShiftedBoard = shiftAndMergeBoard(board, shiftValue);
-        long secondShiftedBoard = shiftAndMergeBoard(firstShiftedBoard, shiftValue);
-        long doubleShiftedBoard = shiftAndMergeBoard(firstShiftedBoard, 2 * shiftValue);
-
-        if (doubleShiftedBoard != 0) {
-            return 4;
-        }
-        if (secondShiftedBoard != 0) {
-            return 3;
-        }
-        if ((firstShiftedBoard ^ secondShiftedBoard) != 0) {
-            return 2;
-        }
-        if (board != 0) {
-            return 1;
-        }
+    private int getHighestLineScore(CounterColor counterColor) {
+        //FIXME :   - return highest line size
+        //          - check horizontally _
+        //          - check vertically |
+        //          - check ascending diagonal /
+        //          - check descending diagonal \
         return 0;
     }
-
 }

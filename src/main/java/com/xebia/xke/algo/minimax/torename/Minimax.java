@@ -7,53 +7,46 @@ public class Minimax {
 
         int bestScore = -State.BEST_SCORE;
 
-        for (T nextState : state.<T>nextStatesIterator()) {
-            int score = getMinScore(nextState, 1);
-            if (score > bestScore) {
-                bestScore = score;
-                bestState = nextState;
-            }
-        }
+        //FIXME select the state with the lowest score among the states child :
+        //      - use getMinScore
+        //      - increase the depth
+
         return bestState;
     }
 
     int getMaxScore(State state, int depth) {
 
-        if (state.isFinalState(depth)) {
-            return state.getScore();
-        }
+        //FIXME if the state is a final state, return the score of the state
+
         int maxScore = -State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
-            maxScore = max(maxScore, getMinScore(childState, depth + 1));
-        }
+        //FIXME - select the highest score among the states child :
+        //      - increase the depth
+        //      - use max method
+
         return maxScore;
     }
 
     int getMinScore(State state, int depth) {
 
-        if (state.isFinalState(depth)) {
-            return state.getScore();
-        }
+        //FIXME if the state is a final state, return the score of the state
+
         int minScore = State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
-            minScore = min(minScore, getMaxScore(childState, depth + 1));
-        }
+        //FIXME - select the lowest score among the states child :
+        //      - increase the depth
+        //      - use min method
+
         return minScore;
     }
 
     int max(int score1, int score2) {
-        if (score1 > score2) {
-            return score1;
-        }
-        return score2;
+        //FIXME select the highest score
+        return 0;
     }
 
     int min(int score1, int score2) {
-        if (score1 < score2) {
-            return score1;
-        }
-        return score2;
+        //FIXME select the lowest score
+        return 0;
     }
 }
