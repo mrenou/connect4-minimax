@@ -29,7 +29,7 @@ public class PlayerLoadersLoader {
         File[] jarFiles = jarDirectory.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String s) {
-                if (s.endsWith(".jar")) {
+                if (s.endsWith(".jar") && !s.startsWith(".in")) {
                     return true;
                 }
                 return false;
