@@ -1,6 +1,7 @@
 package com.xebia.xke.algo.minimax.ui;
 
 import com.xebia.xke.algo.minimax.connect4.*;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.util.Map;
 
 public class ConnectFourGame {
+
+    private final static Logger logger = Logger.getLogger(ConnectFourGame.class);
 
     private static final String DFLT_PLAYERS_DIR = "players/";
     public static final String GAME_CARD_NAME = "gamePanel";
@@ -97,11 +100,7 @@ public class ConnectFourGame {
     private void initPlayers() {
         PlayerLoadersLoader playerLoadersLoader = new PlayerLoadersLoader(getPlayersDirectory());
 
-        try {
-            playerLoaders = playerLoadersLoader.loadAllPlayers();
-        } catch (PlayerLoadingException e) {
-            throw new RuntimeException("Cannot load players.", e);
-        }
+        playerLoaders = playerLoadersLoader.loadAllPlayers();
         if (!tournamentMode) {
             PlayerLoader humanPlayerLoader = new PlayerLoader("Human", HumanPlayer.class, "");
             playerLoaders.put("Human", humanPlayerLoader);

@@ -1,5 +1,7 @@
 package com.xebia.xke.algo.minimax.connect4;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -13,13 +15,15 @@ import java.util.Properties;
 
 public class PlayerLoadersLoader {
 
+    private final static Logger logger = Logger.getLogger(PlayerLoadersLoader.class);
+
     private File jarDirectory;
 
     public PlayerLoadersLoader(File jarDirectory) {
         this.jarDirectory = jarDirectory;
     }
 
-    public Map<String, PlayerLoader> loadAllPlayers() throws PlayerLoadingException {
+    public Map<String, PlayerLoader> loadAllPlayers() {
         Map<String, PlayerLoader> playerLoaders = new HashMap<String,PlayerLoader>();
 
         File[] jarFiles = jarDirectory.listFiles(new FilenameFilter() {
@@ -33,9 +37,12 @@ public class PlayerLoadersLoader {
 
         });
         for (File jarFile : jarFiles) {
-            PlayerLoader playerLoader = loadPlayer(jarFile);
-
-            playerLoaders.put(playerLoader.getName(), playerLoader);
+            try {
+                PlayerLoader playerLoader = loadPlayer(jarFile);
+                playerLoaders.put(playerLoader.getName(), playerLoader);
+            } catch (PlayerLoadingException e) {
+                logger.error("Cannot load player.", e);
+            }
         }
         return playerLoaders;
     }
