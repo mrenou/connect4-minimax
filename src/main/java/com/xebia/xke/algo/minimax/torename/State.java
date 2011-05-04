@@ -6,7 +6,7 @@ public abstract class State {
 
     abstract protected int getScore();
 
-    abstract protected <T extends State>Iterable<T> nextStatesIterator();
+    abstract protected <T extends State>Iterable<T> childStatesIterator();
 
     abstract protected boolean isFinalState(int depth);
 }

@@ -38,7 +38,7 @@ public class Exo002_AlphaBetaTest {
         }
 
         @Override
-        public Iterable<? extends State> nextStatesIterator() {
+        public Iterable<? extends State> childStatesIterator() {
 
             //for (StateTest state : nextStates) {
             //    state.scored = true;

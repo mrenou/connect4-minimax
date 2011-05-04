@@ -33,7 +33,7 @@ public class Exo001_MinimaxTest {
         }
 
         @Override
-        public Iterable<? extends State> nextStatesIterator() {
+        public Iterable<? extends State> childStatesIterator() {
             return nextStates;
         }
 

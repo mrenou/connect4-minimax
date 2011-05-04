@@ -26,7 +26,7 @@ public abstract class StateConnectFour extends State {
     }
 
     @Override
-    public Iterable<? extends State> nextStatesIterator() {
+    public Iterable<? extends State> childStatesIterator() {
         return new  Iterable<StateConnectFour>() {
             @Override
             public Iterator<StateConnectFour> iterator() {
