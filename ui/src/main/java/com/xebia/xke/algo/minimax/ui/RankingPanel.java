@@ -52,7 +52,7 @@ public class RankingPanel extends JPanel {
 
             JLabel label = new JLabel(playerScored.getPlayerLoader().getName() + " (" + playerScored.getScore() + ")");
             label.setIcon(ImageRessources.getInstance().getRedIcon());
-            label.setIcon(ImageRessources.getInstance().getGravatar(playerScored.getPlayerLoader().getGravatarHash() , 140));
+            label.setIcon(ImageRessources.getInstance().getGravatar(playerScored.getPlayerLoader().getGravatarHash() , 120));
             label.setFont(new Font("Verdana", Font.BOLD, 24));
 
             positon++;
@@ -77,7 +77,7 @@ public class RankingPanel extends JPanel {
 
                 JLabel label = new JLabel(playerScored.getPlayerLoader().getName() + " (" + playerScored.getScore() + ")");
                 label.setIcon(ImageRessources.getInstance().getRedIcon());
-                label.setIcon(ImageRessources.getInstance().getGravatar(playerScored.getPlayerLoader().getGravatarHash(), 80));
+                label.setIcon(ImageRessources.getInstance().getGravatar(playerScored.getPlayerLoader().getGravatarHash(), 60));
                 label.setFont(new Font("Verdana", Font.ITALIC, 14));
 
 
