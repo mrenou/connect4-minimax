@@ -11,11 +11,11 @@ public class AlphaBeta {
         int alpha = -State.BEST_SCORE;
         int beta = +State.BEST_SCORE;
 
-        for (T nextState : state.<T>nextStatesIterator()) {
-            int score = getMinScore(nextState, 1, alpha, beta);
+        for (T childState : state.<T>childStatesIterator()) {
+            int score = getMinScore(childState, 1, alpha, beta);
             if (score >= bestScore) {
                 bestScore = score;
-                bestState = nextState;
+                bestState = childState;
             }
         }
         return bestState;
@@ -28,7 +28,7 @@ public class AlphaBeta {
         }
         int maxScore = -State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
+        for (State childState : state.childStatesIterator()) {
             int childScore = getMinScore(childState, depth + 1, alpha, beta);
 
             if (childScore > beta) {
@@ -47,7 +47,7 @@ public class AlphaBeta {
         }
         int minScore = State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
+        for (State childState : state.childStatesIterator()) {
             int childScore = getMaxScore(childState, depth + 1, alpha, beta);
 
             if (childScore < alpha) {

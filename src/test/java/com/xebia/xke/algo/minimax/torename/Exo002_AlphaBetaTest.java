@@ -20,7 +20,7 @@ public class Exo002_AlphaBetaTest {
 
         int score;
         boolean isFinalState = false;
-        Collection<StateTest> nextStates = new ArrayList<StateTest>();
+        Collection<StateTest> childStates = new ArrayList<StateTest>();
         boolean scored = false;
         private int maxDepth;
 
@@ -38,12 +38,8 @@ public class Exo002_AlphaBetaTest {
         }
 
         @Override
-        public Iterable<? extends State> nextStatesIterator() {
-
-            //for (StateTest state : nextStates) {
-            //    state.scored = true;
-            //}
-            return nextStates;
+        public Iterable<? extends State> childStatesIterator() {
+            return childStates;
         }
 
         @Override
@@ -86,7 +82,7 @@ public class Exo002_AlphaBetaTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         int alpha = -State.BEST_SCORE;
         int beta = State.BEST_SCORE;
@@ -103,7 +99,7 @@ public class Exo002_AlphaBetaTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         int alpha = -State.BEST_SCORE;
         int beta = State.BEST_SCORE;
@@ -120,7 +116,7 @@ public class Exo002_AlphaBetaTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
         stateTest.isFinalState = true;
 
         int alpha = -State.BEST_SCORE;
@@ -140,7 +136,7 @@ public class Exo002_AlphaBetaTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         int alpha = -State.BEST_SCORE;
         int beta = State.BEST_SCORE;
@@ -172,7 +168,7 @@ public class Exo002_AlphaBetaTest {
         childState3.score = 11;
         childrenStates.add(childState3);
 
-        stateTest.nextStates = childrenStates;
+        stateTest.childStates = childrenStates;
 
         //when
         StateTest stateTestReturned = alphabeta.alphabeta(stateTest);
@@ -185,7 +181,7 @@ public class Exo002_AlphaBetaTest {
     public void alphabeta_should_return_the_first_score_which_is_greater_than_beta() {
         //given
         StateTest stateTest = new StateTest();
-        stateTest.nextStates = getChildrenStates(11, 32, 45);
+        stateTest.childStates = getChildrenStates(11, 32, 45);
 
         int alpha = -State.BEST_SCORE;
         int beta = 20;
@@ -201,7 +197,7 @@ public class Exo002_AlphaBetaTest {
     public void alphabeta_should_return_the_first_score_which_is_less_than_alpha() {
         //given
         StateTest stateTest = new StateTest();
-        stateTest.nextStates = getChildrenStates(45, 32, 11);
+        stateTest.childStates = getChildrenStates(45, 32, 11);
 
         int alpha = 40;
         int beta = State.BEST_SCORE;
@@ -218,27 +214,27 @@ public class Exo002_AlphaBetaTest {
         //Given
         StateTest stateTest = new StateTest();
 
-        StateTest nextState1 = new StateTest(2);
-        stateTest.nextStates.add(nextState1);
-        StateTest nextState2 = new StateTest(2);
-        stateTest.nextStates.add(nextState2);
+        StateTest childState1 = new StateTest(2);
+        stateTest.childStates.add(childState1);
+        StateTest childState2 = new StateTest(2);
+        stateTest.childStates.add(childState2);
 
-        StateTest nextState11 = new StateTest(2);
-        nextState1.nextStates.add(nextState11);
-        nextState11.score = 40;
-        StateTest nextState12 = new StateTest(2);
-        nextState1.nextStates.add(nextState12);
-        nextState12.score = 60;
+        StateTest childState11 = new StateTest(2);
+        childState1.childStates.add(childState11);
+        childState11.score = 40;
+        StateTest childState12 = new StateTest(2);
+        childState1.childStates.add(childState12);
+        childState12.score = 60;
 
-        StateTest nextState21 = new StateTest(2);
-        nextState2.nextStates.add(nextState21);
-        nextState21.score = 45;
-        StateTest nextState22 = new StateTest(2);
-        nextState2.nextStates.add(nextState22);
-        nextState22.score = 35;
-        StateTest nextState23 = new StateTest(2);
-        nextState2.nextStates.add(nextState23);
-        nextState23.score = 15;
+        StateTest childState21 = new StateTest(2);
+        childState2.childStates.add(childState21);
+        childState21.score = 45;
+        StateTest childState22 = new StateTest(2);
+        childState2.childStates.add(childState22);
+        childState22.score = 35;
+        StateTest childState23 = new StateTest(2);
+        childState2.childStates.add(childState23);
+        childState23.score = 15;
 
         int alpha = -State.BEST_SCORE;
         int beta = State.BEST_SCORE;
@@ -248,13 +244,13 @@ public class Exo002_AlphaBetaTest {
 
         //then
         assertThat(scoreReturned).isEqualTo(40);
-        assertThat(nextState1.scored).isFalse();
-        assertThat(nextState11.scored).isTrue();
-        assertThat(nextState12.scored).isTrue();
-        assertThat(nextState2.scored).isFalse();
-        assertThat(nextState21.scored).isTrue();
-        assertThat(nextState22.scored).isTrue();
-        assertThat(nextState23.scored).isFalse();
+        assertThat(childState1.scored).isFalse();
+        assertThat(childState11.scored).isTrue();
+        assertThat(childState12.scored).isTrue();
+        assertThat(childState2.scored).isFalse();
+        assertThat(childState21.scored).isTrue();
+        assertThat(childState22.scored).isTrue();
+        assertThat(childState23.scored).isFalse();
     }
 
     @Test
@@ -262,27 +258,27 @@ public class Exo002_AlphaBetaTest {
         //given
         StateTest stateTest = new StateTest();
 
-        StateTest nextState1 = new StateTest(2);
-        stateTest.nextStates.add(nextState1);
-        StateTest nextState2 = new StateTest(2);
-        stateTest.nextStates.add(nextState2);
+        StateTest childState1 = new StateTest(2);
+        stateTest.childStates.add(childState1);
+        StateTest childState2 = new StateTest(2);
+        stateTest.childStates.add(childState2);
 
-        StateTest nextState11 = new StateTest(2);
-        nextState1.nextStates.add(nextState11);
-        nextState11.score = 10;
-        StateTest nextState12 = new StateTest(2);
-        nextState1.nextStates.add(nextState12);
-        nextState12.score = 20;
+        StateTest childState11 = new StateTest(2);
+        childState1.childStates.add(childState11);
+        childState11.score = 10;
+        StateTest childState12 = new StateTest(2);
+        childState1.childStates.add(childState12);
+        childState12.score = 20;
 
-        StateTest nextState21 = new StateTest(2);
-        nextState2.nextStates.add(nextState21);
-        nextState21.score = 15;
-        StateTest nextState22 = new StateTest(2);
-        nextState2.nextStates.add(nextState22);
-        nextState22.score = 35;
-        StateTest nextState23 = new StateTest(2);
-        nextState2.nextStates.add(nextState23);
-        nextState23.score = 45;
+        StateTest childState21 = new StateTest(2);
+        childState2.childStates.add(childState21);
+        childState21.score = 15;
+        StateTest childState22 = new StateTest(2);
+        childState2.childStates.add(childState22);
+        childState22.score = 35;
+        StateTest childState23 = new StateTest(2);
+        childState2.childStates.add(childState23);
+        childState23.score = 45;
 
         int alpha = -State.BEST_SCORE;
         int beta = State.BEST_SCORE;
@@ -292,13 +288,13 @@ public class Exo002_AlphaBetaTest {
 
         //then
         assertThat(scoreReturned).isEqualTo(20);
-        assertThat(nextState1.scored).isFalse();
-        assertThat(nextState11.scored).isTrue();
-        assertThat(nextState12.scored).isTrue();
-        assertThat(nextState2.scored).isFalse();
-        assertThat(nextState21.scored).isTrue();
-        assertThat(nextState22.scored).isTrue();
-        assertThat(nextState23.scored).isFalse();
+        assertThat(childState1.scored).isFalse();
+        assertThat(childState11.scored).isTrue();
+        assertThat(childState12.scored).isTrue();
+        assertThat(childState2.scored).isFalse();
+        assertThat(childState21.scored).isTrue();
+        assertThat(childState22.scored).isTrue();
+        assertThat(childState23.scored).isFalse();
     }
 
     private List<StateTest> getChildrenStates(int... scores) {

@@ -40,31 +40,31 @@ public class Exo003_StateConnectFourTest {
         StateConnectFourTestImpl stateConnectFourTest = new StateConnectFourTestImpl(board, CounterColor.RED, CounterColor.YELLOW, 0, 3);
 
         //when
-        Iterator<? extends State> nextStatesIt = stateConnectFourTest.nextStatesIterator().iterator();
+        Iterator<? extends State> childStatesIt = stateConnectFourTest.childStatesIterator().iterator();
 
         //then
-        StateConnectFour nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("RY"));
+        StateConnectFour childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("RY"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R/Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R/Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R//Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R//Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R///Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R///Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R////Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R////Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R/////Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R/////Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("R//////Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("R//////Y"));
 
-        assertThat(nextStatesIt.hasNext()).isFalse();
+        assertThat(childStatesIt.hasNext()).isFalse();
 
     }
 
@@ -75,15 +75,15 @@ public class Exo003_StateConnectFourTest {
         StateConnectFourTestImpl stateConnectFourTest = new StateConnectFourTestImpl(board, CounterColor.RED, CounterColor.YELLOW, 0, 3);
 
         //when
-        Iterator<? extends State> nextStatesIt = stateConnectFourTest.nextStatesIterator().iterator();
+        Iterator<? extends State> childStatesIt = stateConnectFourTest.childStatesIterator().iterator();
 
         //then
-        assertThat(nextStatesIt.hasNext()).isTrue();
+        assertThat(childStatesIt.hasNext()).isTrue();
 
-        StateConnectFour nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("Y/YRRYRY/YRYRRR/RYRRYR/RYRYYY/YYRYRY/YRYYRR"));
+        StateConnectFour childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("Y/YRRYRY/YRYRRR/RYRRYR/RYRYYY/YYRYRY/YRYYRR"));
 
-        assertThat(nextStatesIt.hasNext()).isFalse();
+        assertThat(childStatesIt.hasNext()).isFalse();
     }
 
     @Test
@@ -93,28 +93,28 @@ public class Exo003_StateConnectFourTest {
         StateConnectFourTestImpl stateConnectFourTest = new StateConnectFourTestImpl(board, CounterColor.RED, CounterColor.YELLOW, 0, 3);
 
         //when
-        Iterator<? extends State> nextStatesIt = stateConnectFourTest.nextStatesIterator().iterator();
+        Iterator<? extends State> childStatesIt = stateConnectFourTest.childStatesIterator().iterator();
 
         //then
-        StateConnectFour nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("Y/RYRYRY/"));
+        StateConnectFour childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("Y/RYRYRY/"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY/Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY/Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY//Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY//Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY///Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY///Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY////Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY////Y"));
 
-        nextState = (StateConnectFour) nextStatesIt.next();
-        assertThat(nextState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY/////Y"));
+        childState = (StateConnectFour) childStatesIt.next();
+        assertThat(childState.board).isEqualTo(BoardFactory.createBoard("/RYRYRY/////Y"));
 
-        assertThat(nextStatesIt.hasNext()).isFalse();
+        assertThat(childStatesIt.hasNext()).isFalse();
     }
 
     @Test
@@ -124,10 +124,10 @@ public class Exo003_StateConnectFourTest {
         StateConnectFourTestImpl stateConnectFourTest = new StateConnectFourTestImpl(board, CounterColor.RED, CounterColor.YELLOW, 0, 3);
 
         //when
-        Iterator<? extends State> nextStatesIt = stateConnectFourTest.nextStatesIterator().iterator();
+        Iterator<? extends State> childStatesIt = stateConnectFourTest.childStatesIterator().iterator();
 
         //then
-        assertThat(nextStatesIt.hasNext()).isFalse();
+        assertThat(childStatesIt.hasNext()).isFalse();
     }
 
     @Test

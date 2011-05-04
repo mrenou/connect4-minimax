@@ -7,11 +7,11 @@ public class Minimax {
 
         int bestScore = -State.BEST_SCORE;
 
-        for (T nextState : state.<T>nextStatesIterator()) {
-            int score = getMinScore(nextState, 1);
+        for (T childState : state.<T>childStatesIterator()) {
+            int score = getMinScore(childState, 1);
             if (score > bestScore) {
                 bestScore = score;
-                bestState = nextState;
+                bestState = childState;
             }
         }
         return bestState;
@@ -24,7 +24,7 @@ public class Minimax {
         }
         int maxScore = -State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
+        for (State childState : state.childStatesIterator()) {
             maxScore = max(maxScore, getMinScore(childState, depth + 1));
         }
         return maxScore;
@@ -37,7 +37,7 @@ public class Minimax {
         }
         int minScore = State.BEST_SCORE;
 
-        for (State childState : state.nextStatesIterator()) {
+        for (State childState : state.childStatesIterator()) {
             minScore = min(minScore, getMaxScore(childState, depth + 1));
         }
         return minScore;

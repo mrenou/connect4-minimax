@@ -25,7 +25,7 @@ public class Exo001_MinimaxTest {
 
         private int maxDepth = 1;
 
-        private Collection<? extends State> nextStates;
+        private Collection<? extends State> childStates;
 
         @Override
         public int getScore() {
@@ -33,8 +33,8 @@ public class Exo001_MinimaxTest {
         }
 
         @Override
-        public Iterable<? extends State> nextStatesIterator() {
-            return nextStates;
+        public Iterable<? extends State> childStatesIterator() {
+            return childStates;
         }
 
         @Override
@@ -74,7 +74,7 @@ public class Exo001_MinimaxTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         //when
         int scoreReturned = minimax.getMinScore(stateTest, 0);
@@ -88,7 +88,7 @@ public class Exo001_MinimaxTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         //when
         int scoreReturned = minimax.getMaxScore(stateTest, 0);
@@ -102,7 +102,7 @@ public class Exo001_MinimaxTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
         stateTest.isFinalState = true;
 
         //when
@@ -119,7 +119,7 @@ public class Exo001_MinimaxTest {
         //given
         StateTest stateTest = new StateTest();
         stateTest.score = 42;
-        stateTest.nextStates = getChildrenStates(32, 45, 11);
+        stateTest.childStates = getChildrenStates(32, 45, 11);
 
         //when
         int scoreReturnedByMin = minimax.getMinScore(stateTest, 1);
@@ -148,7 +148,7 @@ public class Exo001_MinimaxTest {
         childState3.score = 11;
         childrenStates.add(childState3);
 
-        stateTest.nextStates = childrenStates;
+        stateTest.childStates = childrenStates;
 
         //when
         StateTest stateTestReturned = minimax.minimax(stateTest);
