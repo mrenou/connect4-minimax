@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Use playersDir system property. ex : -DplayersDir=ui/src/main/assembly/players
+ */
 public class Launcher {
 
     public static void main(String[] args) {
