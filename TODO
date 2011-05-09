@@ -1,0 +1,3 @@
+* aadd tests in Match
+* migrate branches connect4-player and connect4-player-solution as module (without use pom parent)
+* ui : use tournamentMode as a sytem property

@@ -1,0 +1,10 @@
+The aim of this project is to demonstrate use of algorithms minimax and alpha-beta.
+
+Modules :
+* connect4 : main module wich implements the game connect4
+* minimax-tools : set of classes used by some players to implements minimax and alphabeta
+* players-test : module to test players (deprecated)
+* players : example of player implementations
+* ui : swing ui to player with player or use tournament mode
+
+There are tow other projects in branches connect4-player and connect4-player-solution to learn how implements algorithms and heuristic like a work practice and its solution.
